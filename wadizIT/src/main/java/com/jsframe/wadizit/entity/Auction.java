@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "auction")
 public class Auction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

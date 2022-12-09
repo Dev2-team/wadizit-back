@@ -1,18 +1,20 @@
 package com.jsframe.wadizit.entity;
 
+
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+
 @Entity
-@Table(name = "boardcomment")
 @Data
-public class boardComment {
+public class FundingComment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long bComNum;
+    private long fComNum;
 
     @Column(nullable = false, length = 100)
     private String content;
@@ -20,5 +22,6 @@ public class boardComment {
     @Column(nullable = false)
     @CreationTimestamp
     private Timestamp date;
+
 
 }

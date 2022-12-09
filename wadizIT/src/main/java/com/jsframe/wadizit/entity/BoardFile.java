@@ -5,7 +5,6 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "boardfile")
 @Data
 public class BoardFile {
     @Id

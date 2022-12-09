@@ -5,7 +5,6 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "FundingFile")
 @Data
 public class FundingFile {
     //파일 번호
