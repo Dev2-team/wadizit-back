@@ -5,10 +5,8 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "fundbuy")
 @Data
-public class fundBuy {
-
+public class FundBuy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long fBuyNum;
@@ -18,4 +16,6 @@ public class fundBuy {
 
     @Column(nullable = false)
     private long payAmount;
+
+
 }

@@ -6,25 +6,18 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-
 @Entity
 @Data
-public class Board {
-
+public class BoardComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long boardNum;
+    private long bComNum;
 
     @Column(nullable = false, length = 100)
-    private String title;
-
-    @Column(nullable = false, length = 500)
     private String content;
 
-    @Column
+    @Column(nullable = false)
     @CreationTimestamp
     private Timestamp date;
 
-    @Column(nullable = false)
-    private long view;
 }
