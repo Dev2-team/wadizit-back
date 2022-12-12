@@ -16,7 +16,7 @@ public class Member {
     @Column(nullable = false, length = 20)
     private String id;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 100)
     private String pwd;
 
     @Column(nullable = false, length = 20)
