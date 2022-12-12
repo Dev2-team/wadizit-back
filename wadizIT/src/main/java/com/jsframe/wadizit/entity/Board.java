@@ -15,6 +15,10 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long boardNum;
 
+    @ManyToOne
+    @JoinColumn(name = "member_num")
+    private Member memberNum;
+
     @Column(nullable = false, length = 100)
     private String title;
 
