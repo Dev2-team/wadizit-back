@@ -6,5 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface AuctionRepository extends CrudRepository<Auction, Long> {
+    List<Auction> findAll();
     List<Auction> findByStartPrice(long price);
 }
