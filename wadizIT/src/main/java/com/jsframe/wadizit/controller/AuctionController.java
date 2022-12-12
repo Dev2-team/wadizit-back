@@ -22,7 +22,7 @@ public class AuctionController {
         a.setAuctionNum(111);
         a.setCurrentPrice(1000);
         a.setStartPrice(2000);
-//        a.setTitle("a");
+        a.setTitle("a");
         auctionRepo.save(a);
         List<Auction> list = auctionRepo.findByStartPrice(a.getStartPrice());
         for (int i=0; i<list.size(); i++) {
