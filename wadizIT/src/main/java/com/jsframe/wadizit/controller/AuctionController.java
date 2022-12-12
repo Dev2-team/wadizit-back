@@ -17,16 +17,7 @@ import java.util.Optional;
 public class AuctionController {
     @Autowired
     private AuctionRepository auctionRepo;
-
     private HttpStatus respStatus;
-
-    @GetMapping("/list")
-    public ResponseEntity getList() {
-        List<Auction> auctionList = auctionRepo.findAll();
-        if (auctionList.size() == 0) respStatus = HttpStatus.NO_CONTENT;
-        else respStatus = HttpStatus.OK;
-        return ResponseEntity.status(respStatus).body(auctionList);
-    }
 
     @PostMapping("")
     public ResponseEntity create(@RequestBody Auction auction) {
@@ -52,5 +43,13 @@ public class AuctionController {
     public ResponseEntity delete(long auctionNum) {
         auctionRepo.deleteById(auctionNum);
         return ResponseEntity.status(HttpStatus.OK).body("");
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity getList() {
+        List<Auction> auctionList = auctionRepo.findAll();
+        if (auctionList.size() == 0) respStatus = HttpStatus.NO_CONTENT;
+        else respStatus = HttpStatus.OK;
+        return ResponseEntity.status(respStatus).body(auctionList);
     }
 }
