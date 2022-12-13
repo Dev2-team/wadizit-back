@@ -22,7 +22,7 @@ public class Bid {
     @JoinColumn(name = "memberNum")
     private Member memberNum;
 
-    // 상태
+    // 상태(0: 입찰, 1: 낙찰)
     @Column(nullable = false)
     @ColumnDefault("-1")
     private long status;
