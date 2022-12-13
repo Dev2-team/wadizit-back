@@ -34,8 +34,8 @@ public class BoardService {
 
     }
 
-    public Board getBoard(Long boardNum) {
-        log.info("getBoard()");
+    public Board read(Long boardNum) {
+        log.info("read()");
 
         Board boa2 = bRepo.findById(boardNum).get();
         log.info("출력 : "+ boa2.getContent());
@@ -43,7 +43,7 @@ public class BoardService {
 
     }
 
-    public String deleteBoard(Long boardNum) {
+    public String delete(Long boardNum) {
         log.info("deleteBoard()");
         String msg = null;
 
@@ -62,5 +62,22 @@ public class BoardService {
         Iterable<Board> bList = bRepo.findAll();
 
         return bList;
+    }
+
+    public String update(Board board, Long boardNum) {
+        log.info("update()");
+        String msg = null;
+
+        Board board3 = bRepo.findById(boardNum).get();
+        board3.setTitle(board.getTitle());
+        board3.setContent(board.getContent());
+
+        try{
+            bRepo.save(board3);
+            msg = "수정 성공";
+        }catch (Exception e){
+            msg = "수정 실패";
+        }
+        return msg;
     }
 }

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Log
-@RestController()
+@RestController
 @RequestMapping("/auction")
 public class AuctionController {
     @Autowired
