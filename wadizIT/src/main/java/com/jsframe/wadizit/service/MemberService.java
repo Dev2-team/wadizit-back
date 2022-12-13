@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Service
 @Log
@@ -18,12 +19,12 @@ public class MemberService {
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
+    // 회원가입 (create)
     public boolean join(Member member){
         log.info("join()");
         boolean result = false;
 
-        // 비밀번호 암호화 처리
-        String ePwd = encoder.encode(member.getPwd());
+        String ePwd = encoder.encode(member.getPwd());// 비밀번호 암호화 처리
         member.setPwd(ePwd); // 암호화된 비밀번호로 변경
 
         try{
@@ -36,6 +37,7 @@ public class MemberService {
         return result;
     }
 
+    // 로그인
     public boolean login(Member member, HttpSession session) {
         log.info("login()");
         boolean result = false;
@@ -57,6 +59,55 @@ public class MemberService {
         return result;
     }
 
+    // 회원조회 (read)
+    public Member getMember(Long MemberNum) {
+        log.info("getMember()");
+
+        Member member = mRepo.findById(MemberNum).get();
+        log.info("출력 : "+ member.getMemberNum());
+
+        return member;
+    }
+
+    // 회원정보 수정 (update)
+    public boolean updateMember(Member member, Member mb){
+        log.info("updateMember()");
+        boolean result = false;
+
+        try{
+            String ePwd = encoder.encode(member.getPwd());
+            mb.setPwd(ePwd);
+
+            mb.setNickname(member.getNickname());
+            mb.setName(member.getName());
+            mb.setPhone(member.getPhone());
+            mb.setEmail(member.getEmail());
+
+            mRepo.save(mb);
+            result = true;
+        }catch (Exception e){
+            e.printStackTrace();
+            result = false;
+        }
+
+        return result;
+    }
+
+    // 회원탈퇴 (delete)
+    public boolean deleteMember(Long MemberNum) {
+        log.info("deleteMember()");
+        boolean result = false;
+
+        try{
+            mRepo.deleteById(MemberNum);
+            result = true;
+        } catch (Exception e){
+            result = false;
+        }
+        return result;
+    }
+
+    // countMemberById가 0이 아니면 중복
     public int checkId(String id){
         log.info("checkId");
         return mRepo.countMemberById(id);
