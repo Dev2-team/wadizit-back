@@ -1,7 +1,7 @@
 package com.jsframe.wadizit.controller;
 
-import com.jsframe.wadizit.entity.Auction;
-import com.jsframe.wadizit.repository.AuctionRepository;
+import com.jsframe.wadizit.entity.Bid;
+import com.jsframe.wadizit.repository.BidRepository;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,44 +12,44 @@ import java.util.List;
 import java.util.Optional;
 
 @Log
-@RestController
-@RequestMapping("/auction")
-public class AuctionController {
+@RestController()
+@RequestMapping("/bid")
+public class BidController {
     @Autowired
-    private AuctionRepository auctionRepo;
+    private BidRepository bidRepo;
     private HttpStatus respStatus;
 
     @PostMapping("")
-    public ResponseEntity create(@RequestBody Auction auction) {
-        Auction ret = auctionRepo.save(auction);
+    public ResponseEntity create(@RequestBody Bid bid) {
+        Bid ret = bidRepo.save(bid);
         return ResponseEntity.status(HttpStatus.CREATED).body(ret);
     }
 
     @GetMapping("")
-    public ResponseEntity read(long auctionNum) {
-        Optional<Auction> ret = auctionRepo.findById(auctionNum);
+    public ResponseEntity read(long bidNum) {
+        Optional<Bid> ret = bidRepo.findById(bidNum);
         if (ret.isEmpty()) respStatus = HttpStatus.NO_CONTENT;
         else respStatus = HttpStatus.OK;
         return ResponseEntity.status(respStatus).body(ret);
     }
 
     @PutMapping("")
-    public ResponseEntity update(@RequestBody Auction auction) {
-        Auction ret = auctionRepo.save(auction);
+    public ResponseEntity update(@RequestBody Bid bid) {
+        Bid ret = bidRepo.save(bid);
         return ResponseEntity.status(HttpStatus.OK).body(ret);
     }
 
     @DeleteMapping("")
-    public ResponseEntity delete(long auctionNum) {
-        auctionRepo.deleteById(auctionNum);
+    public ResponseEntity delete(long bidNum) {
+        bidRepo.deleteById(bidNum);
         return ResponseEntity.status(HttpStatus.OK).body("");
     }
 
     @GetMapping("/list")
     public ResponseEntity getList() {
-        List<Auction> auctionList = auctionRepo.findAll();
-        if (auctionList.size() == 0) respStatus = HttpStatus.NO_CONTENT;
+        List<Bid> bidList = bidRepo.findAll();
+        if (bidList.size() == 0) respStatus = HttpStatus.NO_CONTENT;
         else respStatus = HttpStatus.OK;
-        return ResponseEntity.status(respStatus).body(auctionList);
+        return ResponseEntity.status(respStatus).body(bidList);
     }
 }
