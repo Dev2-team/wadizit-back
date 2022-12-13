@@ -26,4 +26,8 @@ public class FundingFile {
     @Column(nullable = false, length = 20)
     private String sysName;
 
+    @ManyToOne
+    @JoinColumn(name = "funding_num")
+    private Funding fundingNum;
+
 }

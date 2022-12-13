@@ -23,5 +23,12 @@ public class FundingComment {
     @CreationTimestamp
     private Timestamp date;
 
+    @ManyToOne
+    @JoinColumn(name = "member_num")
+    private Member memberNum;
+
+    @ManyToOne
+    @JoinColumn(name = "funding_num")
+    private Funding fundingNum;
 
 }

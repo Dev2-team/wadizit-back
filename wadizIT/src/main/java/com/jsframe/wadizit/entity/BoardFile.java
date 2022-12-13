@@ -16,4 +16,8 @@ public class BoardFile {
 
     @Column(nullable = false, length = 20)
     private String sysName;
+
+    @ManyToOne
+    @JoinColumn(name = "board_num")
+    private Board boardNum;
 }

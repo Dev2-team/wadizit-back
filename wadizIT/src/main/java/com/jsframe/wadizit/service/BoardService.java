@@ -2,6 +2,7 @@ package com.jsframe.wadizit.service;
 
 import com.jsframe.wadizit.entity.Board;
 
+import com.jsframe.wadizit.entity.Member;
 import com.jsframe.wadizit.repository.BoardRepository;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,20 +65,33 @@ public class BoardService {
         return bList;
     }
 
-    public String update(Board board, Long boardNum) {
+    public String update(Board board, Long boardNum, Long memberNum) {
         log.info("update()");
         String msg = null;
 
-        Board board3 = bRepo.findById(boardNum).get();
-        board3.setTitle(board.getTitle());
-        board3.setContent(board.getContent());
 
-        try{
-            bRepo.save(board3);
-            msg = "수정 성공";
-        }catch (Exception e){
-            msg = "수정 실패";
+        Board board3 = bRepo.findById(boardNum).get();
+
+        //로그인한 사람의 memberNum
+        String memberInfo = String.valueOf(memberNum);
+        log.info(memberInfo);
+        log.info(""+board3.getMemberNum().getMemberNum());
+        if(memberNum.equals(board3.getMemberNum().getMemberNum())){
+
+            board3.setTitle(board.getTitle());
+            board3.setContent(board.getContent());
+
+            try{
+                bRepo.save(board3);
+                msg = "수정 성공";
+            }catch (Exception e){
+                msg = "수정 실패";
+            }
+
+        } else {
+            msg = "작성자만 수정 가능합니다.";
         }
+
         return msg;
     }
 }

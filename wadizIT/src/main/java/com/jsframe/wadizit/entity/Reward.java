@@ -3,6 +3,7 @@ package com.jsframe.wadizit.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.print.attribute.standard.MediaSize;
 
 @Entity
 @Data
@@ -23,4 +24,8 @@ public class Reward {
 
     @Column(nullable = false, columnDefinition = "boolean default true")
     private Boolean delivery;
+
+    @ManyToOne
+    @JoinColumn(name = "funding_num")
+    private Funding fundingNum;
 }
