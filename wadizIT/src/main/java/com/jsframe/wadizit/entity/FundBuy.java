@@ -17,5 +17,13 @@ public class FundBuy {
     @Column(nullable = false)
     private long payAmount;
 
+    @ManyToOne
+    @JoinColumn(name = "reward_num")
+    private Reward rewardNum;
+
+    @ManyToOne
+    @JoinColumn(name = "member_num")
+    private Member memberNum;
+
 
 }

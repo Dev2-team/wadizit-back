@@ -1,6 +1,7 @@
 package com.jsframe.wadizit.controller;
 
 import com.jsframe.wadizit.entity.Board;
+import com.jsframe.wadizit.entity.Member;
 import com.jsframe.wadizit.service.BoardService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +36,12 @@ public class BoardController {
     }
 
     //게시글 수정
-    @PutMapping("")
-    public String update(@RequestBody Board board, Long boardNum){
+    @PutMapping("") //Board board는 수정하기 위해 작성한 내용, boardNum은 기존에 있던 게시판을 불러오기 위한 매개변수
+    public String update(@RequestBody Board board, Long boardNum, Long memberNum){
         log.info("update()");
-        return Serv.update(board, boardNum);
+
+
+        return Serv.update(board, boardNum, memberNum);
     }
 
     //게시글 삭제
