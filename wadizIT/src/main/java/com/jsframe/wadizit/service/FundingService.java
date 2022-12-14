@@ -67,4 +67,20 @@ public class FundingService {
         return fList;
     }
 
+    //펀딩 게시글 수정
+    public String update(Funding funding, Long fundingNum) {
+        log.info("update()");
+        String msg = null;
+
+        Funding funding3 = fRepo.findById(fundingNum).get();
+        funding3.setTitle(funding.getTitle());
+
+        try{
+            fRepo.save(funding3);
+            msg = "수정 성공";
+        }catch (Exception e){
+            msg = "수정 실패";
+        }
+        return msg;
+    }
 }
