@@ -14,7 +14,9 @@
       <configuration>
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
-        <datasource-mapping />
+        <datasource-mapping>
+          <factory-entry name="entityManagerFactory" />
+        </datasource-mapping>
         <naming-strategy-map />
       </configuration>
     </facet>
@@ -119,5 +121,8 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:5.3.24" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.xmlunit:xmlunit-core:2.9.0" level="project" />
     <orderEntry type="library" name="Maven: org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-websocket:2.7.6" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-messaging:5.3.24" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-websocket:5.3.24" level="project" />
   </component>
 </module>

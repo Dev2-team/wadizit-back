@@ -44,6 +44,10 @@ public class FundingController {
     }
 
     //펀딩 게시글 수정
-
+    @PutMapping("")
+    public String update(@RequestBody Funding funding, Long fundingNum){
+        log.info("update()");
+        return Serv.update(funding, fundingNum);
+    }
 
 }
