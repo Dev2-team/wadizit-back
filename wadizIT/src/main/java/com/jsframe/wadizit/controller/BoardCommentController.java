@@ -7,6 +7,8 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @RestController
 @Log
 public class BoardCommentController {
@@ -14,9 +16,10 @@ public class BoardCommentController {
     private BoardCommentService bcServ;
 
     @PostMapping("board/comment/write")
-    public String create(@RequestBody BoardComment boardComment) {
+    public String create(@RequestBody BoardComment boardComment, HttpSession session) {
         log.info("create()");
-        String msg = bcServ.create(boardComment);
+        Member member = (Member) session.getAttribute("mem");
+        String msg = bcServ.create(boardComment, member);
         return msg;
     }
 
@@ -27,16 +30,18 @@ public class BoardCommentController {
     }
 
     @PutMapping("board/comment/update")
-    public String update(Long bComNum, @RequestBody BoardComment boardComment) {
+    public String update(@RequestBody BoardComment boardComment, HttpSession session, Long bComNum) {
         log.info("update()");
-        String msg = bcServ.update(bComNum, boardComment);
+        Member member = (Member) session.getAttribute("mem");
+        String msg = bcServ.update(boardComment, member, bComNum);
         return msg;
     }
 
     @DeleteMapping("board/comment/delete")
-    public String delete(Long bComNum) {
+    public String delete(HttpSession session, Long bComNum) {
         log.info("delete()");
-        String msg = bcServ.delete(bComNum);
+        Member member = (Member) session.getAttribute("mem");
+        String msg = bcServ.delete(member, bComNum);
         return msg;
     }
 
