@@ -12,8 +12,6 @@ public class FundingFile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long fundingFileNum;
 
-    //펀딩 번호 (외래키)
-
     //파일 구분(0:사업자등록증 /1 : 대표이미지 / 2 : 상세정보 이미지)
     @Column(nullable = false)
     private int fileType;
@@ -28,6 +26,7 @@ public class FundingFile {
 
     @ManyToOne
     @JoinColumn(name = "funding_num")
+    //펀딩 번호 (외래키)
     private Funding fundingNum;
 
 }

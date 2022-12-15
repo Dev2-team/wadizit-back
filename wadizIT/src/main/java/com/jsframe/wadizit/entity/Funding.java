@@ -15,8 +15,6 @@ public class Funding {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long fundingNum;
 
-    //회원번호 (펀딩 신청자) 외래키
-
     //펀딩 제목
     @Column(nullable = false, length = 50)
     private String title;
@@ -51,5 +49,6 @@ public class Funding {
 
     @ManyToOne
     @JoinColumn(name = "member_num")
+    //회원번호 (펀딩 신청자) 외래키
     private Member memberNum;
 }
