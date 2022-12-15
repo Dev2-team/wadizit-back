@@ -1,6 +1,5 @@
 package com.jsframe.wadizit.service;
 
-import com.jsframe.wadizit.entity.Board;
 import com.jsframe.wadizit.entity.BoardComment;
 import com.jsframe.wadizit.entity.Member;
 import com.jsframe.wadizit.repository.BoardCommentRepository;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Service
 @Log
@@ -18,13 +16,16 @@ public class BoardCommentService {
     private BoardCommentRepository bcRepo;
 
     // 게시글 댓글 작성
-    public String create(BoardComment boardComment) {
+    public String create(BoardComment boardComment, Member member) {
         log.info("create()");
         String msg = null;
 
         try {
+            boardComment.setMemberNum(member);
             bcRepo.save(boardComment);
+
             log.info("bComNum : " + boardComment.getBComNum());
+            log.info("memberNum : " + boardComment.getMemberNum());
             log.info("content : " + boardComment.getContent());
             log.info("date : " + boardComment.getDate());
 
@@ -48,16 +49,21 @@ public class BoardCommentService {
     }
 
     // 게시글 댓글 수정
-    public String update(Long bComNum, BoardComment boardComment) {
+    public String update(BoardComment boardComment, Member member, Long bComNum) {
         log.info("update()");
         String msg = null;
 
-        BoardComment bComment = bcRepo.findById(bComNum).get();
-        bComment.setContent(boardComment.getContent());
+        BoardComment bcData = bcRepo.findById(bComNum).get();
+        long mNum = (bcData.getMemberNum()).getMemberNum();
 
         try {
-            bcRepo.save(bComment);
-            msg = "댓글 수정을 완료했습니다.";
+            if (member.getMemberNum() == mNum) {
+                bcData.setContent(boardComment.getContent());
+                bcRepo.save(bcData);
+                msg = "댓글 수정을 완료했습니다.";
+            } else {
+                msg = "작성자만 수정할 수 있습니다.";
+            }
 
         } catch (Exception e) {
             log.info(e.getMessage());
@@ -68,14 +74,23 @@ public class BoardCommentService {
     }
 
     // 게시글 댓글 삭제
-    public String delete(Long bComNum) {
+    public String delete(Member member, Long bComNum) {
         log.info("delete()");
         String msg = null;
 
+        BoardComment bcData = bcRepo.findById(bComNum).get();
+        long mNum = (bcData.getMemberNum()).getMemberNum();
+
         try {
-            bcRepo.deleteById(bComNum);
-            msg = "댓글 삭제를 완료했습니다.";
+            if (member.getMemberNum() == mNum) {
+                bcRepo.deleteById(bComNum);
+                msg = "댓글 삭제를 완료했습니다.";
+            }  else {
+                msg = "작성자만 삭제할 수 있습니다.";
+            }
+
         } catch (Exception e) {
+            log.info(e.getMessage());
             msg = "댓글 삭제를 실패했습니다.";
         }
 
