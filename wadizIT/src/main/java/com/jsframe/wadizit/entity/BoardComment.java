@@ -13,6 +13,14 @@ public class BoardComment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long bComNum;
 
+    @ManyToOne
+    @JoinColumn(name = "memberNum")
+    private Member memberNum;
+
+    @ManyToOne
+    @JoinColumn(name = "boardNum")
+    private Board boardNum;
+
     @Column(nullable = false, length = 100)
     private String content;
 
