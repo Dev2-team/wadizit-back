@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 
 @RestController
 @Log
@@ -20,10 +22,10 @@ public class BoardController {
 
     //게시글 생성
     @PostMapping("")
-    public String create(@RequestBody Board board){
+    public String create(@RequestBody Board board, HttpSession session){
         log.info("create()");
-
-        String msg = Serv.create(board);
+        Member member = (Member) session.getAttribute("mem");
+        String msg = Serv.create(board, member);
         return msg;
 
     }
@@ -37,18 +39,20 @@ public class BoardController {
 
     //게시글 수정
     @PutMapping("") //Board board는 수정하기 위해 작성한 내용, boardNum은 기존에 있던 게시판을 불러오기 위한 매개변수
-    public String update(@RequestBody Board board, Long boardNum, Long memberNum){
+    public String update(@RequestBody Board board, Long boardNum, HttpSession session){
         log.info("update()");
+        Member member = (Member) session.getAttribute("mem");
 
-
-        return Serv.update(board, boardNum, memberNum);
+        return Serv.update(board, boardNum, member);
     }
 
     //게시글 삭제
     @DeleteMapping("")
-    public String delete(Long boardNum){
+    public String delete(Long boardNum, HttpSession session){
         log.info("delete()");
-        return Serv.delete(boardNum);
+        Member member = (Member) session.getAttribute("mem");
+        log.info(""+member.getMemberNum());
+        return Serv.delete(boardNum, member);
     }
 
     //게시글 리스트
@@ -57,8 +61,5 @@ public class BoardController {
         log.info("getList()");
         return Serv.getList(board);
     }
-
-
-
 
 }
