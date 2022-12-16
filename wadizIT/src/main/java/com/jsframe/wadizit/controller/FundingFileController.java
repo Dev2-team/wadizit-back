@@ -1,6 +1,5 @@
 package com.jsframe.wadizit.controller;
 
-import com.jsframe.wadizit.entity.Funding;
 import com.jsframe.wadizit.entity.FundingFile;
 import com.jsframe.wadizit.service.FundingFileService;
 import lombok.extern.java.Log;
@@ -16,13 +15,14 @@ import java.util.List;
 
 @Log
 @RestController
+@RequestMapping("/funding/file")
 public class FundingFileController {
 
     @Autowired
     private FundingFileService Serv;
 
     //펀딩 게시글 파일 첨부 기능 맵핑
-    @GetMapping("funding/file/download")
+    @GetMapping("/download")
     public ResponseEntity<Resource> downloadFundingFile(@RequestBody FundingFile ffile,
                                                         HttpSession session) throws
             IOException {
@@ -31,19 +31,19 @@ public class FundingFileController {
         return resp;
     }
 
-    @GetMapping("funding/file/list")
+    @GetMapping("/list")
     public Iterable<FundingFile> getFundingFileList(Long fundingNum){
         log.info("getFundingList()");
         return Serv.getFundingFileList(fundingNum);
     }
 
-    @DeleteMapping("funding/file/delete")
+    @DeleteMapping("")
     public String deleteFundingFile(Long fundingNum, HttpSession session) {
         log.info("deleteFundingFile()");
         return Serv.deleteFundingFile(fundingNum, session);
     }
 
-    @PostMapping("funding/file/upload")
+    @PostMapping("")
     public String uploadFundingFile(List<MultipartFile> files, HttpSession session, long fundingnum) throws Exception {
         log.info("uploadFundingFile()");
         String upff = Serv.fileUpload(files,session,fundingnum);

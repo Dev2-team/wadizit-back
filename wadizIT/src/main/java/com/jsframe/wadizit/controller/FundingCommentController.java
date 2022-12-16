@@ -1,15 +1,12 @@
 package com.jsframe.wadizit.controller;
 
-import com.jsframe.wadizit.entity.Funding;
 import com.jsframe.wadizit.entity.FundingComment;
 import com.jsframe.wadizit.entity.Member;
 import com.jsframe.wadizit.service.FundingCommentService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpSession;
-import java.util.Optional;
 
 @Log
 @RestController
@@ -25,7 +22,6 @@ public class FundingCommentController {
         log.info("create()");
         Member member = (Member) session.getAttribute("mem");
         String msg = fcServ.create(fCom, member, fundingNum);
-
         return msg;
     }
 
@@ -63,9 +59,4 @@ public class FundingCommentController {
         Iterable<FundingComment> fComList = fcServ.getList();
         return fComList;
     }
-
-
-
-
-
 }
