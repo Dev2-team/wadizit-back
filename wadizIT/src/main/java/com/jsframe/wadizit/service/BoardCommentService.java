@@ -7,8 +7,6 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
-
 @Service
 @Log
 public class BoardCommentService {
@@ -98,7 +96,7 @@ public class BoardCommentService {
     }
 
     // 게시글 댓글 리스트 출력
-    public Iterable<BoardComment> getList(BoardComment boardComment) {
+    public Iterable<BoardComment> getList() {
         log.info("getList()");
         Iterable<BoardComment> bcList = bcRepo.findAll();
 

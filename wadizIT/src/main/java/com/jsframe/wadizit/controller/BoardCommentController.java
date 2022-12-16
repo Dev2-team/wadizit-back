@@ -46,8 +46,8 @@ public class BoardCommentController {
     }
 
     @GetMapping("board/comment/list")
-    public Iterable<BoardComment> getList(BoardComment boardComment) {
+    public Iterable<BoardComment> getList() {
         log.info("getList()");
-        return bcServ.getList(boardComment);
+        return bcServ.getList();
     }
 }
