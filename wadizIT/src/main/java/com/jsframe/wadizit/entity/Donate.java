@@ -6,10 +6,10 @@ import javax.persistence.*;
 
 @Entity
 @Data
-public class FundBuy {
+public class Donate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long fundingBuyNum;
+    private long donateNum;
 
     @Column(nullable = false)
     private long quantity;
