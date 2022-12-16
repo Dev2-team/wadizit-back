@@ -7,10 +7,8 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
-
-@Service
 @Log
+@Service
 public class BoardCommentService {
     @Autowired
     private BoardCommentRepository bcRepo;
@@ -85,7 +83,7 @@ public class BoardCommentService {
             if (member.getMemberNum() == mNum) {
                 bcRepo.deleteById(bComNum);
                 msg = "댓글 삭제를 완료했습니다.";
-            }  else {
+            } else {
                 msg = "작성자만 삭제할 수 있습니다.";
             }
 
@@ -98,11 +96,10 @@ public class BoardCommentService {
     }
 
     // 게시글 댓글 리스트 출력
-    public Iterable<BoardComment> getList(BoardComment boardComment) {
+    public Iterable<BoardComment> getList() {
         log.info("getList()");
         Iterable<BoardComment> bcList = bcRepo.findAll();
 
         return bcList;
     }
-
 }

@@ -48,7 +48,7 @@ public class Funding {
     private int status;
 
     @ManyToOne
-    @JoinColumn(name = "member_num")
+    @JoinColumn(name = "memberNum")
     //회원번호 (펀딩 신청자) 외래키
     private Member memberNum;
 }

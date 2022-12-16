@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
-@RestController
 @Log
+@RestController
+@RequestMapping("/board/comment")
 public class BoardCommentController {
     @Autowired
     private BoardCommentService bcServ;
 
-    @PostMapping("board/comment/write")
+    @PostMapping("")
     public String create(@RequestBody BoardComment boardComment, HttpSession session) {
         log.info("create()");
         Member member = (Member) session.getAttribute("mem");
@@ -23,13 +24,13 @@ public class BoardCommentController {
         return msg;
     }
 
-    @GetMapping("board/comment/read")
+    @GetMapping("")
     public BoardComment read(Long bComNum) {
         log.info("read()");
         return bcServ.read(bComNum);
     }
 
-    @PutMapping("board/comment/update")
+    @PutMapping("")
     public String update(@RequestBody BoardComment boardComment, HttpSession session, Long bComNum) {
         log.info("update()");
         Member member = (Member) session.getAttribute("mem");
@@ -37,7 +38,7 @@ public class BoardCommentController {
         return msg;
     }
 
-    @DeleteMapping("board/comment/delete")
+    @DeleteMapping("")
     public String delete(HttpSession session, Long bComNum) {
         log.info("delete()");
         Member member = (Member) session.getAttribute("mem");
@@ -45,9 +46,9 @@ public class BoardCommentController {
         return msg;
     }
 
-    @GetMapping("board/comment/list")
-    public Iterable<BoardComment> getList(BoardComment boardComment) {
+    @GetMapping("list")
+    public Iterable<BoardComment> getList() {
         log.info("getList()");
-        return bcServ.getList(boardComment);
+        return bcServ.getList();
     }
 }

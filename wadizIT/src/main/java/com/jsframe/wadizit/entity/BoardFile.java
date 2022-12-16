@@ -18,6 +18,6 @@ public class BoardFile {
     private String sysName;
 
     @ManyToOne
-    @JoinColumn(name = "board_num")
+    @JoinColumn(name = "boardNum")
     private Board boardNum;
 }
