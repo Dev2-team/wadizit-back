@@ -24,11 +24,11 @@ public class FundingComment {
     private Timestamp date;
 
     @ManyToOne
-    @JoinColumn(name = "member_num")
+    @JoinColumn(name = "memberNum")
     private Member memberNum;
 
     @ManyToOne
-    @JoinColumn(name = "funding_num")
+    @JoinColumn(name = "fundingNum")
     private Funding fundingNum;
 
 }

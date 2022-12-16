@@ -2,6 +2,7 @@ package com.jsframe.wadizit.entity;
 
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 
 @Data

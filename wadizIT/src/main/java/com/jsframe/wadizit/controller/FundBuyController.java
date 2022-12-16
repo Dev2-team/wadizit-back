@@ -8,33 +8,33 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
-@RestController
 @Log
+@RestController
+@RequestMapping("/funding/donate")
 public class FundBuyController {
-
     @Autowired
     private FundBuyService Serv;
 
-    @PostMapping("/funding/donate")
-    public String fundBuy(@RequestBody FundBuy fundBuy, HttpSession session){
+    @PostMapping("")
+    public String fundBuy(@RequestBody FundBuy fundBuy, HttpSession session) {
         log.info("fundBuy()");
-        return Serv.buyFunding(fundBuy,session);
+        return Serv.buyFunding(fundBuy, session);
     }
 
-    @PutMapping("/funding/donate")
-    public String updateFundBuy(@RequestBody FundBuy fundBuy, HttpSession session){
-        log.info("updateFundBuy(): "+ fundBuy.getFundingBuyNum());
-        return Serv.updateFundBuy(fundBuy,session);
+    @PutMapping("")
+    public String updateFundBuy(@RequestBody FundBuy fundBuy, HttpSession session) {
+        log.info("updateFundBuy(): " + fundBuy.getFundingBuyNum());
+        return Serv.updateFundBuy(fundBuy, session);
     }
 
-    @GetMapping("/funding/donate")
-    public FundBuy readFundBuy(Long fundBuy){
+    @GetMapping("")
+    public FundBuy readFundBuy(Long fundBuy) {
         log.info("readFundBuy()");
         return Serv.readFundBuy(fundBuy);
     }
 
-    @DeleteMapping("/funding/donate")
-    public String deleteFundBuy(Long fundBuy){
+    @DeleteMapping("")
+    public String deleteFundBuy(Long fundBuy) {
         log.info("deleteFundBuy()");
         return Serv.deleteFundBuy(fundBuy);
     }

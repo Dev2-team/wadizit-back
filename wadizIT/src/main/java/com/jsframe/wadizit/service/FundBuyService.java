@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 @Service
 @Log
 public class FundBuyService {
-
     @Autowired
     private FundBuyRepository fbRepo;
 
@@ -37,7 +36,7 @@ public class FundBuyService {
         try {
             //Member member1 = (Member) session.getAttribute("mem");
             //fundBuy.setMemberNum(member1);
-            log.info(""+fundBuy.getFundingBuyNum());
+            log.info("" + fundBuy.getFundingBuyNum());
 
             fbRepo.save(fundBuy);
             msg = "후원 취소 성공";
@@ -47,7 +46,6 @@ public class FundBuyService {
         }
 
         return msg;
-
     }
 
 
@@ -56,9 +54,7 @@ public class FundBuyService {
         FundBuy readfb = fbRepo.findById(fundBuy).get();
 
         return readfb;
-
     }
-
 
     public String deleteFundBuy(Long fundBuy) {
         log.info("deleteFundBuy()");

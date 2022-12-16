@@ -1,7 +1,6 @@
 package com.jsframe.wadizit.service;
 
 import com.jsframe.wadizit.entity.Board;
-import com.jsframe.wadizit.entity.BoardComment;
 import com.jsframe.wadizit.entity.BoardFile;
 import com.jsframe.wadizit.repository.BoardFileRepository;
 import com.jsframe.wadizit.repository.BoardRepository;
@@ -25,8 +24,8 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
 
-@Service
 @Log
+@Service
 @Transactional
 public class BoardFileService {
     @Autowired
@@ -35,7 +34,7 @@ public class BoardFileService {
     private BoardFileRepository bfRefo;
 
     public String upload(List<MultipartFile> files,
-                       HttpSession session, long boardNum)
+                         HttpSession session, long boardNum)
             throws Exception {
         log.info("upload()");
 
@@ -150,5 +149,4 @@ public class BoardFileService {
                         "attachment; filename=" + fileName)
                 .body(fResource);
     }
-
 }

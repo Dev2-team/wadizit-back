@@ -10,19 +10,14 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
-
 @Service
 @Log
 public class FundingCommentService {
-
     @Autowired
     private FundingRepository fRepo;
 
     @Autowired
     private FundingCommentRepository fcRepo;
-
 
     public String create(FundingComment fCom, Member member, Long fundingNum) {
         log.info("create()");
@@ -32,10 +27,10 @@ public class FundingCommentService {
         fCom.setFundingNum(funding);
         fCom.setMemberNum(member);
 
-        try{
+        try {
             fcRepo.save(fCom);
             msg = "댓글 입력 성공";
-        } catch (Exception e){
+        } catch (Exception e) {
             msg = "댓글 입력 실패";
         }
 
@@ -65,11 +60,11 @@ public class FundingCommentService {
         FundingComment fCom = fcRepo.findById(fComNum).get();
         long writer = (fCom.getMemberNum()).getMemberNum();
 
-        if(loginPerson == writer){
-            try{
+        if (loginPerson == writer) {
+            try {
                 fcRepo.deleteById(fComNum);
                 msg = "댓글 삭제 성공";
-            } catch (Exception e){
+            } catch (Exception e) {
                 msg = "댓글 삭제 실패";
             }
 
@@ -89,14 +84,14 @@ public class FundingCommentService {
         FundingComment fComData = fcRepo.findById(fComNum).get();
         long writer = (fComData.getMemberNum()).getMemberNum();
 
-        if(loginPerson==writer){
-            try{
+        if (loginPerson == writer) {
+            try {
                 fComData.setContent(fCom.getContent());
                 log.info("fComData.setContent(fCom.getContent())");
                 fcRepo.save(fComData);
                 msg = "댓글 수정 성공";
 
-            } catch (Exception e){
+            } catch (Exception e) {
                 msg = "댓글 수정 실패";
 
             }

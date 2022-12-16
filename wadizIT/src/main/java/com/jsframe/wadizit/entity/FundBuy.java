@@ -18,12 +18,10 @@ public class FundBuy {
     private long payAmount;
 
     @ManyToOne
-    @JoinColumn(name = "reward_num")
+    @JoinColumn(name = "rewardNum")
     private Reward rewardNum;
 
     @ManyToOne
-    @JoinColumn(name = "member_num")
+    @JoinColumn(name = "memberNum")
     private Member memberNum;
-
-
 }

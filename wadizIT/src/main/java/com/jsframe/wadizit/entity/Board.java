@@ -16,7 +16,7 @@ public class Board {
     private long boardNum;
 
     @ManyToOne
-    @JoinColumn(name = "member_num")
+    @JoinColumn(name = "memberNum")
     private Member memberNum;
 
     @Column(nullable = false, length = 100)

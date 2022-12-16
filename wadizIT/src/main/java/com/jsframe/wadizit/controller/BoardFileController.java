@@ -1,6 +1,5 @@
 package com.jsframe.wadizit.controller;
 
-import com.jsframe.wadizit.entity.Board;
 import com.jsframe.wadizit.entity.BoardFile;
 import com.jsframe.wadizit.service.BoardFileService;
 import lombok.extern.java.Log;
@@ -14,17 +13,15 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@RestController
 @Log
+@RestController
 @RequestMapping("/board/file")
 public class BoardFileController {
     @Autowired
     private BoardFileService bfServ;
 
     @PostMapping("")
-    public String upload(List<MultipartFile> files,
-                         HttpSession session, long boardNum)
-            throws Exception {
+    public String upload(List<MultipartFile> files, HttpSession session, long boardNum) throws Exception {
         log.info("upload()");
         String msg = bfServ.upload(files, session, boardNum);
         return msg;

@@ -40,30 +40,30 @@ public class MemberController {
 
     // 회원조회 (read)
     @GetMapping("/get")
-    public Member getMember(Long MemberNum){
+    public Member getMember(Long MemberNum) {
         log.info("getMember()");
         return mServ.getMember(MemberNum);
     }
 
     // 회원정보 수정 (update)
-    @PutMapping ("/update")
-    public boolean updateMember(@RequestBody Member member, HttpSession session){
+    @PutMapping("/update")
+    public boolean updateMember(@RequestBody Member member, HttpSession session) {
         log.info("updateMember()");
-        Member mb = (Member)session.getAttribute("mem");
+        Member mb = (Member) session.getAttribute("mem");
         boolean result = mServ.updateMember(member, mb);
         return result;
     }
 
     // 회원탈퇴 (delete)
-    @DeleteMapping ("/delete")
-    public boolean deleteMember(Long MemberNum){
+    @DeleteMapping("/delete")
+    public boolean deleteMember(Long MemberNum) {
         log.info("deleteMember()");
         boolean result = mServ.deleteMember(MemberNum);
         return result;
     }
 
     @GetMapping("/checkId")
-    public int checkId (@RequestParam String id) {
+    public int checkId(@RequestParam String id) {
         return mServ.checkId(id);
     }
 }
