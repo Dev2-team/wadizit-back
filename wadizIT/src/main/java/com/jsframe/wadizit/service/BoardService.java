@@ -63,7 +63,7 @@ public class BoardService {
 
         if(boardWriter==loginPerson){
             try{
-                bRepo.deleteById(boardNum);
+                bRepo.deleteById( boardNum);
                 msg = "삭제 성공";
             } catch (Exception e){
                 log.info(e.getMessage());

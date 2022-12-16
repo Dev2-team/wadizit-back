@@ -10,30 +10,31 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 @Log
+@RequestMapping("/funding/donate")
 public class FundBuyController {
 
     @Autowired
     private FundBuyService Serv;
 
-    @PostMapping("/funding/donate")
+    @PostMapping("")
     public String fundBuy(@RequestBody FundBuy fundBuy, HttpSession session){
         log.info("fundBuy()");
         return Serv.buyFunding(fundBuy,session);
     }
 
-    @PutMapping("/funding/donate")
+    @PutMapping("")
     public String updateFundBuy(@RequestBody FundBuy fundBuy, HttpSession session){
         log.info("updateFundBuy(): "+ fundBuy.getFundingBuyNum());
         return Serv.updateFundBuy(fundBuy,session);
     }
 
-    @GetMapping("/funding/donate")
+    @GetMapping("")
     public FundBuy readFundBuy(Long fundBuy){
         log.info("readFundBuy()");
         return Serv.readFundBuy(fundBuy);
     }
 
-    @DeleteMapping("/funding/donate")
+    @DeleteMapping("")
     public String deleteFundBuy(Long fundBuy){
         log.info("deleteFundBuy()");
         return Serv.deleteFundBuy(fundBuy);

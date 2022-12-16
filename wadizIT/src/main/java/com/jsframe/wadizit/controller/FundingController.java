@@ -1,10 +1,13 @@
 package com.jsframe.wadizit.controller;
 
 import com.jsframe.wadizit.entity.Funding;
+import com.jsframe.wadizit.entity.Member;
 import com.jsframe.wadizit.service.FundingService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 @RestController
 @Log
@@ -15,9 +18,10 @@ public class FundingController {
 
     //펀딩 생성
     @PostMapping("")
-    public String create(@RequestBody Funding funding){
+    public String create(@RequestBody Funding funding, HttpSession session){
         log.info("create()");
-        String msg = Serv.create(funding);
+        Member member = (Member) session.getAttribute("mem");
+        String msg = Serv.create(funding, member);
         return msg;
     }
 
@@ -44,8 +48,10 @@ public class FundingController {
 
     //펀딩 게시글 수정
     @PutMapping("")
-    public String update(@RequestBody Funding funding, Long fundingNum){
+    public String update(@RequestBody Funding funding, Long fundingNum, HttpSession session){
         log.info("update()");
-        return Serv.update(funding, fundingNum);
+        Member member = (Member) session.getAttribute("mem");
+        log.info(""+member);
+        return Serv.update(funding, fundingNum, member);
     }
 }
