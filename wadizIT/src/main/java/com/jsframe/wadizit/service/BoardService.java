@@ -40,10 +40,10 @@ public class BoardService {
 
     }
 
-    public Board read(Long boardNum) {
+    public Board read(Long fBuyNum) {
         log.info("read()");
 
-        Board boa2 = bRepo.findById(boardNum).get();
+        Board boa2 = bRepo.findById(fBuyNum).get();
         log.info("출력 : "+ boa2.getContent());
         return boa2;
 

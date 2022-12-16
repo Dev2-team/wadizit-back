@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class FundBuy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long fBuyNum;
+    private long fundingBuyNum;
 
     @Column(nullable = false)
     private long quantity;
