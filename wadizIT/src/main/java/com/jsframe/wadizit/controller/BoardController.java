@@ -1,12 +1,15 @@
 package com.jsframe.wadizit.controller;
 
 import com.jsframe.wadizit.entity.Board;
+import com.jsframe.wadizit.entity.Member;
 import com.jsframe.wadizit.service.BoardService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 
 @RestController
@@ -19,10 +22,10 @@ public class BoardController {
 
     //게시글 생성
     @PostMapping("")
-    public String create(@RequestBody Board board){
+    public String create(@RequestBody Board board, HttpSession session){
         log.info("create()");
-
-        String msg = Serv.create(board);
+        Member member = (Member) session.getAttribute("mem");
+        String msg = Serv.create(board, member);
         return msg;
 
     }
@@ -35,17 +38,21 @@ public class BoardController {
     }
 
     //게시글 수정
-    @PutMapping("")
-    public String update(@RequestBody Board board, Long boardNum){
+    @PutMapping("") //Board board는 수정하기 위해 작성한 내용, boardNum은 기존에 있던 게시판을 불러오기 위한 매개변수
+    public String update(@RequestBody Board board, Long boardNum, HttpSession session){
         log.info("update()");
-        return Serv.update(board, boardNum);
+        Member member = (Member) session.getAttribute("mem");
+
+        return Serv.update(board, boardNum, member);
     }
 
     //게시글 삭제
     @DeleteMapping("")
-    public String delete(Long boardNum){
+    public String delete(Long boardNum, HttpSession session){
         log.info("delete()");
-        return Serv.delete(boardNum);
+        Member member = (Member) session.getAttribute("mem");
+        log.info(""+member.getMemberNum());
+        return Serv.delete(boardNum, member);
     }
 
     //게시글 리스트
@@ -54,8 +61,5 @@ public class BoardController {
         log.info("getList()");
         return Serv.getList(board);
     }
-
-
-
 
 }
