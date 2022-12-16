@@ -7,7 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface FundingFileRepository extends CrudRepository<FundingFile, Long> {
-
     List<FundingFile> findByFundingNum(Funding funding);
 
     void deleteByFundingNum(Funding funding);

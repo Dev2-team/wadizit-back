@@ -27,5 +27,4 @@ public class BoardComment {
     @Column(nullable = false)
     @CreationTimestamp
     private Timestamp date;
-
 }

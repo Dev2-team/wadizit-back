@@ -23,10 +23,10 @@ public class ChatService {
     @OnOpen
     public void onOpen(Session session) {
 //        log.info("open session : {}, clients={}", session.toString(), clients);
-        if(!clients.contains(session)) {
+        if (!clients.contains(session)) {
             clients.add(session);
             log.info("open session : " + session.toString());
-        }else{
+        } else {
             log.info("이미 연결된 session");
         }
     }

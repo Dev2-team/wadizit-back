@@ -7,8 +7,8 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
 @Log
+@Service
 public class BoardCommentService {
     @Autowired
     private BoardCommentRepository bcRepo;
@@ -83,7 +83,7 @@ public class BoardCommentService {
             if (member.getMemberNum() == mNum) {
                 bcRepo.deleteById(bComNum);
                 msg = "댓글 삭제를 완료했습니다.";
-            }  else {
+            } else {
                 msg = "작성자만 삭제할 수 있습니다.";
             }
 
@@ -102,5 +102,4 @@ public class BoardCommentService {
 
         return bcList;
     }
-
 }

@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
-@RestController
 @Log
+@RestController
 @RequestMapping("/board/comment")
 public class BoardCommentController {
     @Autowired

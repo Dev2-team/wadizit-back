@@ -3,12 +3,10 @@ package com.jsframe.wadizit.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.print.attribute.standard.MediaSize;
 
 @Entity
 @Data
 public class Reward {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long rewardNum;
@@ -26,6 +24,6 @@ public class Reward {
     private Boolean delivery;
 
     @ManyToOne
-    @JoinColumn(name = "funding_num")
+    @JoinColumn(name = "fundingNum")
     private Funding fundingNum;
 }

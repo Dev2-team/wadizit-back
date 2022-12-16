@@ -23,11 +23,10 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
 
-@Service
 @Log
+@Service
 @Transactional
 public class FundingFileService {
-
     @Autowired
     private FundingRepository fRepo;
 
@@ -48,20 +47,19 @@ public class FundingFileService {
         List<FundingFile> ffList = ffRepo.findByFundingNum(funding);
 
         try {
-            for(FundingFile ff : ffList){
+            for (FundingFile ff : ffList) {
                 String delPath = realPath += ff.getSysName();
                 File file = new File(realPath);
 
-                if (file.exists()){
+                if (file.exists()) {
                     file.delete();
                 }
             }
 
             ffRepo.deleteByFundingNum(funding);
 
-
             msg = "삭제 성공";
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             msg = "삭제 실패";
         }
@@ -124,14 +122,14 @@ public class FundingFileService {
         log.info(realpath);
         InputStreamResource fResource = new InputStreamResource(new FileInputStream(realpath));
         String fileName = URLEncoder.encode(ff.getOriginName(), "UTF-8");
-        return  ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM)
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .cacheControl(CacheControl.noCache())
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
                 .body(fResource);
     }
 
     // 특정 게시글에 대한 파일 리스트 얻기
-    public List<FundingFile> getFundingFileList (Long fundingNum) {
+    public List<FundingFile> getFundingFileList(Long fundingNum) {
         log.info("getFundingFileList()");
         Funding funding = new Funding();
         funding.setFundingNum(fundingNum);
@@ -140,6 +138,4 @@ public class FundingFileService {
     }
 
     // 개별 파일 얻기
-
-
 }
