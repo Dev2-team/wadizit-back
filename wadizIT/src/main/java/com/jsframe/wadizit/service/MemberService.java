@@ -110,4 +110,10 @@ public class MemberService {
         log.info("checkId");
         return mRepo.countMemberById(id);
     }
+
+    // countMemberById가 0이 아니면 중복
+    public int checkNickname(String nickname) {
+        log.info("checkNickname");
+        return mRepo.countMemberByNickname(nickname);
+    }
 }

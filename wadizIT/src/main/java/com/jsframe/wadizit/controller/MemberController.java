@@ -66,4 +66,9 @@ public class MemberController {
     public int checkId(@RequestParam String id) {
         return mServ.checkId(id);
     }
+
+    @GetMapping("/checkNickname")
+    public int checkNickname(@RequestParam String nickname) {
+        return mServ.checkNickname(nickname);
+    }
 }
