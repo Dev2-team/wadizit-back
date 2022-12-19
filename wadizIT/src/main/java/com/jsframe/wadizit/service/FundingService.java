@@ -90,7 +90,7 @@ public class FundingService {
             fund3.setCategory(funding.getCategory());
             fund3.setStartDate(funding.getStartDate());
             fund3.setEndDate(funding.getEndDate());
-            
+
 
             try {
                 fRepo.save(funding3);
