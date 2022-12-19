@@ -25,10 +25,10 @@ public class Member {
     @Column(nullable = false, length = 10)
     private String name;
 
-    @Column(nullable = false, length = 12)
+    @Column(length = 12)
     private String phone;
 
-    @Column(nullable = false, length = 30)
+    @Column(length = 30)
     private String email;
 
     @Column(nullable = false)
