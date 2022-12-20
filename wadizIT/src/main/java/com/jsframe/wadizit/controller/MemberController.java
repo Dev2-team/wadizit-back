@@ -25,9 +25,9 @@ public class MemberController {
 
     // 로그인
     @PostMapping("/login")
-    public boolean login(@RequestBody Member member, HttpSession session) {
+    public long login(@RequestBody Member member, HttpSession session) {
         session.setAttribute("mem", member);
-        boolean result = mServ.login(member, session);
+        long result = mServ.login(member, session);
         return result;
     }
 
