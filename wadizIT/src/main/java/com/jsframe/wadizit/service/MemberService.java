@@ -36,9 +36,9 @@ public class MemberService {
     }
 
     // 로그인
-    public boolean login(Member member, HttpSession session) {
+    public long login(Member member, HttpSession session) {
         log.info("login()");
-        boolean result = false;
+        long result = member.getMemberNum();
 
         Member m = mRepo.findMemberById(member.getId());
         if (m != null) {//입력한 회원의 아이디가 있음
@@ -47,14 +47,14 @@ public class MemberService {
                 member = mRepo.findMemberById(member.getId());
                 // 세션에 로그인 성공 정보 저장
                 session.setAttribute("mem", member);
-                result = true;
+                result = member.getMemberNum();
             } else {// 비밀번호가 맞지 않는 경우
-                result = false;
+                result = -1;
             }
         } else {//잘못된 아이디 입력
-            result = false;
+            result = -1;
         }
-        return result;
+        return member.getMemberNum();
     }
 
     // 회원조회 (read)
@@ -116,4 +116,6 @@ public class MemberService {
         log.info("checkNickname");
         return mRepo.countMemberByNickname(nickname);
     }
+
+
 }
