@@ -7,6 +7,10 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.logging.Handler;
+
 @Service
 @Log
 public class FundingService {
@@ -61,7 +65,7 @@ public class FundingService {
 
     }
 
-    //펀딩 게시글 리스트
+    //펀딩 게시글 리스트(ALL)
     public Iterable<Funding> getList(Funding funding) {
         log.info("getList()");
         Iterable<Funding> fList = fRepo.findAll();
@@ -105,4 +109,13 @@ public class FundingService {
         return msg;
 
     }
+
+    //펀딩 생성 내역 리스트(로그인한 유저)
+    public List<Funding> getMyList(Funding funding, HttpSession session) {
+        Member member = (Member) session.getAttribute("mem");
+        funding.setMemberNum(member);
+        List<Funding> myList = fRepo.findAllByMemberNum(member);
+        return myList;
+    }
+
 }
