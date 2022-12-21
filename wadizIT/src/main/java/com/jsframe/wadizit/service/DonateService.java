@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Service
 @Log
@@ -18,8 +19,8 @@ public class DonateService {
         log.info("buyFunding()");
         String msg = null;
         try {
-            //Member member = (Member) session.getAttribute("mem");
-            //fundBuy.setMemberNum(member);
+            Member member = (Member) session.getAttribute("mem");
+            donate.setMemberNum(member);
             fbRepo.save(donate);
             msg = "펀딩 후원 성공";
         } catch (Exception e) {
@@ -33,8 +34,8 @@ public class DonateService {
     public String updateDonate(Donate donate, HttpSession session) {
         String msg = null;
         try {
-            //Member member1 = (Member) session.getAttribute("mem");
-            //fundBuy.setMemberNum(member1);
+            Member member1 = (Member) session.getAttribute("mem");
+            donate.setMemberNum(member1);
             log.info("" + donate.getDonateNum());
 
             fbRepo.save(donate);
@@ -58,5 +59,12 @@ public class DonateService {
         fbRepo.deleteById(donateNum);
         String msg = "후원 삭제 완료";
         return msg;
+    }
+
+    public List<Donate> getMyList(Donate donate, HttpSession session) {
+        Member member = (Member) session.getAttribute("mem");
+        donate.setMemberNum(member);
+        List<Donate> myList = fbRepo.findAllByMemberNum(member);
+        return myList;
     }
 }

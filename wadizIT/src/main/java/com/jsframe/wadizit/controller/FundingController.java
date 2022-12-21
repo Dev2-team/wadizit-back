@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 @Log
@@ -53,5 +54,12 @@ public class FundingController {
         Member member = (Member) session.getAttribute("mem");
         log.info(""+member);
         return Serv.update(funding, fundingNum, member);
+    }
+
+    //펀딩 생성 내역 리스트(로그인한 유저)
+    @GetMapping("/plist")
+    public List<Funding> getMyList(Funding funding, HttpSession session){
+
+        return Serv.getMyList(funding, session);
     }
 }

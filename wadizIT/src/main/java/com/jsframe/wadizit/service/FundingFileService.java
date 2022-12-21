@@ -111,10 +111,10 @@ public class FundingFileService {
     }
 
     //파일 다운로드
-    public ResponseEntity<Resource> fileDownlaod(FundingFile ffile, HttpSession session) throws IOException {
+    public ResponseEntity<Resource> fileDownlaod(long fundingFileNum, HttpSession session) throws IOException {
         log.info("fileDownload()");
 
-        FundingFile ff = ffRepo.findById(ffile.getFundingFileNum()).get();
+        FundingFile ff = ffRepo.findById(fundingFileNum).get();
 
         //파일 저장경로 구하기
         String realpath = session.getServletContext().getRealPath("/");

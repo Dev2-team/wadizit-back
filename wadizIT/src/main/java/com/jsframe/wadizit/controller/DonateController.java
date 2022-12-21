@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Log
 @RestController
@@ -33,5 +34,10 @@ public class DonateController {
     @DeleteMapping("")
     public String delete(Long donateNum) {
         return Serv.deleteDonate(donateNum);
+    }
+
+    @GetMapping("/dlist")
+    public List<Donate> getMyList(Donate donate, HttpSession session){
+        return Serv.getMyList(donate, session);
     }
 }
