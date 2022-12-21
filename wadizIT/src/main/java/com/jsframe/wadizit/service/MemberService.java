@@ -8,6 +8,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Log
@@ -36,9 +39,9 @@ public class MemberService {
     }
 
     // 로그인
-    public long login(Member member, HttpSession session) {
+    public Map<Object, Object> login(Member member, HttpSession session) {
         log.info("login()");
-        long result = member.getMemberNum();
+        Map<Object, Object> result= new HashMap<>();
 
         Member m = mRepo.findMemberById(member.getId());
         if (m != null) {//입력한 회원의 아이디가 있음
@@ -47,14 +50,16 @@ public class MemberService {
                 member = mRepo.findMemberById(member.getId());
                 // 세션에 로그인 성공 정보 저장
                 session.setAttribute("mem", member);
-                result = member.getMemberNum();
+                result.put("success", true);
+                result.put("nickName", member.getNickname());
+                result.put("memberNum", member.getMemberNum());
             } else {// 비밀번호가 맞지 않는 경우
-                result = -1;
+                result.put("success", false);
             }
         } else {//잘못된 아이디 입력
-            result = -1;
+            result.put("success", false);
         }
-        return member.getMemberNum();
+        return result;
     }
 
     // 회원조회 (read)
@@ -117,5 +122,8 @@ public class MemberService {
         return mRepo.countMemberByNickname(nickname);
     }
 
-
+    public List<Member> findAll() {
+        log.info("findAll");
+        return mRepo.findAll();
+    }
 }
