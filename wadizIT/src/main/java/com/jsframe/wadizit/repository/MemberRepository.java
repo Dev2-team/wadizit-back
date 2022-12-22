@@ -11,4 +11,7 @@ public interface MemberRepository extends CrudRepository<Member, Long> {
     List<Member> findAll();
 
     int countMemberById(String id);
+
+    int countMemberByNickname(String nickname);
+
 }

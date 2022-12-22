@@ -8,6 +8,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Log
@@ -36,9 +39,9 @@ public class MemberService {
     }
 
     // 로그인
-    public boolean login(Member member, HttpSession session) {
+    public Map<Object, Object> login(Member member, HttpSession session) {
         log.info("login()");
-        boolean result = false;
+        Map<Object, Object> result= new HashMap<>();
 
         Member m = mRepo.findMemberById(member.getId());
         if (m != null) {//입력한 회원의 아이디가 있음
@@ -47,12 +50,14 @@ public class MemberService {
                 member = mRepo.findMemberById(member.getId());
                 // 세션에 로그인 성공 정보 저장
                 session.setAttribute("mem", member);
-                result = true;
+                result.put("success", true);
+                result.put("nickName", member.getNickname());
+                result.put("memberNum", member.getMemberNum());
             } else {// 비밀번호가 맞지 않는 경우
-                result = false;
+                result.put("success", false);
             }
         } else {//잘못된 아이디 입력
-            result = false;
+            result.put("success", false);
         }
         return result;
     }
@@ -109,5 +114,16 @@ public class MemberService {
     public int checkId(String id) {
         log.info("checkId");
         return mRepo.countMemberById(id);
+    }
+
+    // countMemberById가 0이 아니면 중복
+    public int checkNickname(String nickname) {
+        log.info("checkNickname");
+        return mRepo.countMemberByNickname(nickname);
+    }
+
+    public List<Member> findAll() {
+        log.info("findAll");
+        return mRepo.findAll();
     }
 }

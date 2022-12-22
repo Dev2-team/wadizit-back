@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Map;
 
 @Log
 @RestController
@@ -25,9 +27,9 @@ public class MemberController {
 
     // 로그인
     @PostMapping("/login")
-    public boolean login(@RequestBody Member member, HttpSession session) {
+    public Map<Object, Object> login(@RequestBody Member member, HttpSession session) {
         session.setAttribute("mem", member);
-        boolean result = mServ.login(member, session);
+        Map<Object, Object> result = mServ.login(member, session);
         return result;
     }
 
@@ -66,4 +68,15 @@ public class MemberController {
     public int checkId(@RequestParam String id) {
         return mServ.checkId(id);
     }
+
+    @GetMapping("/checkNickname")
+    public int checkNickname(@RequestParam String nickname) {
+        return mServ.checkNickname(nickname);
+    }
+
+    @GetMapping("/findAll")
+    public List<Member> findAll(){
+        return mServ.findAll();
+    }
+
 }
