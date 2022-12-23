@@ -29,17 +29,22 @@ import java.util.List;
 @Transactional
 public class BoardFileService {
     @Autowired
-    private BoardRepository bRefo;
-    @Autowired
-    private BoardFileRepository bfRefo;
 
-    public String upload(List<MultipartFile> files,
-                         HttpSession session, long boardNum)
+    private BoardRepository bRepo;
+
+    @Autowired
+    private BoardFileRepository bfRepo;
+
+    public void upload(List<MultipartFile> files,
+                         HttpSession session, Board board)
             throws Exception {
         log.info("upload()");
 
         // 파일 저장 위치 지정
         String realPath = session.getServletContext().getRealPath("/");
+
+        log.info("realPath : " + realPath);
+
         realPath += "upload/";
 
         File folder = new File(realPath);
@@ -47,6 +52,9 @@ public class BoardFileService {
             folder.mkdir();
         }
 
+
+        log.info("files : " + files);
+       
         for (MultipartFile mf : files) {
             String originName = mf.getOriginalFilename();
 
@@ -59,6 +67,7 @@ public class BoardFileService {
             boardFile.setBoardNum(bRefo.findById(boardNum).get());
             boardFile.setOriginName(originName);
 
+
             String sysName = System.currentTimeMillis()
                     + originName.substring(originName.lastIndexOf("."));
             boardFile.setSysName(sysName);
@@ -67,15 +76,19 @@ public class BoardFileService {
 
             mf.transferTo(file); // upload 폴더에 파일 저장
 
-            bfRefo.save(boardFile);
-        }
 
+            bfRepo.save(boardFile);
+        }
+        
         return "파일 업로드를 성공했습니다.";
+
     }
 
     public BoardFile read(Long boardFileNum) {
         log.info("read()");
-        BoardFile boardFile = bfRefo.findById(boardFileNum).get();
+
+        BoardFile boardFile = bfRepo.findById(boardFileNum).get();
+
         log.info("파일 정보 : " + boardFile);
         return boardFile;
     }
@@ -111,7 +124,7 @@ public class BoardFileService {
             File file = new File(delPath);
             file.delete();
 
-            bfRefo.deleteById(boardFileNum);
+            bfRepo.deleteById(boardFileNum);
 
             msg = "파일 삭제 완료";
         } catch (Exception e) {
@@ -124,8 +137,9 @@ public class BoardFileService {
     public Iterable<BoardFile> getList(long boardNum) {
         log.info("getList()");
 
-        Board bNum = bRefo.findById(boardNum).get();
-        Iterable<BoardFile> bfList = bfRefo.findAllByBoardNum(bNum);
+        Board bNum = bRepo.findById(boardNum).get();
+        Iterable<BoardFile> bfList = bfRepo.findAllByBoardNum(bNum);
+
         return bfList;
     }
 
@@ -133,7 +147,7 @@ public class BoardFileService {
             throws IOException {
         log.info("download()");
 
-        BoardFile bFile = bfRefo.findById(boardFileNum).get();
+        BoardFile bFile = bfRepo.findById(boardFileNum).get();
 
         String realPath = session.getServletContext().getRealPath("/");
         realPath += "upload/" + bFile.getSysName();
@@ -149,4 +163,6 @@ public class BoardFileService {
                         "attachment; filename=" + fileName)
                 .body(fResource);
     }
+
 }
+

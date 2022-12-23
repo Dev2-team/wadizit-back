@@ -6,8 +6,10 @@ import com.jsframe.wadizit.service.BoardService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Log
 @RestController
@@ -18,10 +20,11 @@ public class BoardController {
 
     //게시글 생성
     @PostMapping("")
-    public String create(@RequestBody Board board, HttpSession session) {
+    public String create(@RequestPart(value = "data", required = true) Board board, @RequestPart(value = "files" , required = false) List<MultipartFile> files, HttpSession session,
+                         HttpSession sessionFile){
         log.info("create()");
         Member member = (Member) session.getAttribute("mem");
-        String msg = Serv.create(board, member);
+        String msg = Serv.create(board,files, sessionFile, member);
         return msg;
     }
 
