@@ -25,7 +25,7 @@ public class FundingFile {
     private String sysName;
 
     @ManyToOne
-    @JoinColumn(name = "funding_num")
+    @JoinColumn(name = "fundingNum")
     //펀딩 번호 (외래키)
     private Funding fundingNum;
 

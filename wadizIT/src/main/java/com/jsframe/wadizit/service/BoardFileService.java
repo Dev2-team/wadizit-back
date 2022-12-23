@@ -12,7 +12,6 @@ import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +29,7 @@ import java.util.List;
 @Transactional
 public class BoardFileService {
     @Autowired
+
     private BoardRepository bRepo;
 
     @Autowired
@@ -42,7 +42,9 @@ public class BoardFileService {
 
         // 파일 저장 위치 지정
         String realPath = session.getServletContext().getRealPath("/");
+
         log.info("realPath : " + realPath);
+
         realPath += "upload/";
 
         File folder = new File(realPath);
@@ -50,21 +52,21 @@ public class BoardFileService {
             folder.mkdir();
         }
 
+
         log.info("files : " + files);
+       
         for (MultipartFile mf : files) {
             String originName = mf.getOriginalFilename();
-            log.info("originName : " + originName);
+
             if (originName.equals("")) { // 업로드할 파일이 없을 경우 정지
-                return;
+                return "업로드할 파일이 없습니다.";
             }
 
             BoardFile boardFile = new BoardFile();
-            Board bData = bRepo.findById(board.getBoardNum()).get();
-            log.info("board : " + bData);
-            boardFile.setBoardNum(board);
 
+            boardFile.setBoardNum(bRefo.findById(boardNum).get());
             boardFile.setOriginName(originName);
-            log.info("boardFile : " + boardFile);
+
 
             String sysName = System.currentTimeMillis()
                     + originName.substring(originName.lastIndexOf("."));
@@ -74,13 +76,19 @@ public class BoardFileService {
 
             mf.transferTo(file); // upload 폴더에 파일 저장
 
+
             bfRepo.save(boardFile);
         }
+        
+        return "파일 업로드를 성공했습니다.";
+
     }
 
     public BoardFile read(Long boardFileNum) {
         log.info("read()");
+
         BoardFile boardFile = bfRepo.findById(boardFileNum).get();
+
         log.info("파일 정보 : " + boardFile);
         return boardFile;
     }
@@ -131,6 +139,7 @@ public class BoardFileService {
 
         Board bNum = bRepo.findById(boardNum).get();
         Iterable<BoardFile> bfList = bfRepo.findAllByBoardNum(bNum);
+
         return bfList;
     }
 
@@ -154,4 +163,6 @@ public class BoardFileService {
                         "attachment; filename=" + fileName)
                 .body(fResource);
     }
+
 }
+
