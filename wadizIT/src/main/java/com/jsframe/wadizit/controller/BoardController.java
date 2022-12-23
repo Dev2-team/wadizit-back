@@ -20,11 +20,10 @@ public class BoardController {
 
     //게시글 생성
     @PostMapping("")
-    public String create(@RequestPart(value = "data", required = true) Board board, @RequestPart(value = "files" , required = false) List<MultipartFile> files, HttpSession session,
-                         HttpSession sessionFile){
+    public String create(@RequestBody Board board, HttpSession session){
         log.info("create()");
         Member member = (Member) session.getAttribute("mem");
-        String msg = Serv.create(board,files, sessionFile, member);
+        String msg = Serv.create(board, member);
         return msg;
     }
 

@@ -35,8 +35,8 @@ public class BoardFileService {
     @Autowired
     private BoardFileRepository bfRepo;
 
-    public void upload(List<MultipartFile> files,
-                         HttpSession session, Board board)
+    public String upload(List<MultipartFile> files,
+                         HttpSession session, Long boardNum)
             throws Exception {
         log.info("upload()");
 
@@ -64,7 +64,7 @@ public class BoardFileService {
 
             BoardFile boardFile = new BoardFile();
 
-            boardFile.setBoardNum(bRefo.findById(boardNum).get());
+            boardFile.setBoardNum(bRepo.findById(boardNum).get());
             boardFile.setOriginName(originName);
 
 

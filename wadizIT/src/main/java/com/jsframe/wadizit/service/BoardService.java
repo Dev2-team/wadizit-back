@@ -18,12 +18,8 @@ public class BoardService {
     @Autowired
     private BoardRepository bRepo;
 
-
-    @Autowired
-    BoardFileService bfServ = new BoardFileService();
-
     @Transactional
-        public String create(Board board, List<MultipartFile> files, HttpSession sessionFile, Member member) {
+        public String create(Board board, Member member) {
         log.info("create()");
         String msg = null;
 
@@ -35,11 +31,7 @@ public class BoardService {
             board.setMemberNum(member);
             bRepo.save(board);
             log.info("boardNum : "+board.getBoardNum());
-            log.info("files : "+files);
-            log.info("sessionFile : " + sessionFile);
-            if(files != null) {
-                bfServ.upload(files, sessionFile, board);
-            }
+
             msg = "게시물 등록 성공";
         } catch (Exception e) {
             log.info(e.getMessage());
@@ -50,7 +42,7 @@ public class BoardService {
 
     }
 
-    public Board read(Long fBuyNum) {
+    public Board read(Long boardNum) {
         log.info("read()");
 
 
