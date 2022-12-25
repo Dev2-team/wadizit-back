@@ -126,4 +126,6 @@ public class MemberService {
         log.info("findAll");
         return mRepo.findAll();
     }
+
+
 }

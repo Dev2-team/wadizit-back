@@ -118,4 +118,21 @@ public class FundingService {
         return myList;
     }
 
+    public String statusUpdate(Funding funding, Long fundingNum) {
+        log.info("statusUpdate()");
+        String msg = null;
+
+        Funding fData = fRepo.findById(fundingNum).get();
+
+        try {
+            fData.setStatus(funding.getStatus());
+            fRepo.save(fData);
+            msg = "상태 수정 성공";
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            msg = "상태 수정 실패";
+        }
+
+        return msg;
+    }
 }

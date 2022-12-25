@@ -2,6 +2,7 @@ package com.jsframe.wadizit.service;
 
 import com.jsframe.wadizit.entity.Board;
 import com.jsframe.wadizit.entity.BoardFile;
+import com.jsframe.wadizit.entity.Member;
 import com.jsframe.wadizit.repository.BoardFileRepository;
 import com.jsframe.wadizit.repository.BoardRepository;
 import lombok.extern.java.Log;
@@ -110,12 +111,14 @@ public class BoardFileService {
 //        return msg;
 //    }
 
-    public String delete(HttpSession session, long boardFileNum) {
+    public String delete(HttpSession sessionFile, long boardFileNum) {
         log.info("delete()");
         String msg = null;
 
-        String realPath = session.getServletContext().getRealPath("/");
+        String realPath = sessionFile.getServletContext().getRealPath("/");
         realPath += "upload";
+
+        bfRepo.findById(boardFileNum).get();
 
         try {
             BoardFile boardFile = new BoardFile();
@@ -164,5 +167,42 @@ public class BoardFileService {
                 .body(fResource);
     }
 
+    public String deleteAll(long boardNum, HttpSession sessionFile, Member member) {
+        log.info("deleteAll()");
+        String msg = null;
+
+        Board bData = bRepo.findById(boardNum).get();
+        //로그인한 사람의 정보
+        long loginPerson = member.getMemberNum();
+        //글쓴이의 정보
+        long writer = (bData.getMemberNum()).getMemberNum();
+
+        log.info("loginPerson : " +loginPerson);
+        log.info("write : " + writer);
+
+        String realPath = sessionFile.getServletContext().getRealPath("/");
+        realPath += "upload";
+
+        if(loginPerson==writer){
+
+            try {
+                BoardFile boardFile = new BoardFile();
+                String delPath = realPath + boardFile.getSysName();
+
+                File file = new File(delPath);
+                file.delete();
+
+                bfRepo.deleteAllByBoardNum(bData);
+
+                msg = "파일 삭제 완료";
+            } catch (Exception e) {
+                msg = "파일 삭제 실패";
+            }
+
+        } else {
+            msg = "글 작성자만 삭제 가능합니다.";
+        }
+        return  msg;
+    }
 }
 

@@ -19,9 +19,9 @@ public class BoardService {
     private BoardRepository bRepo;
 
     @Transactional
-        public String create(Board board, Member member) {
+        public long create(Board board, Member member) {
         log.info("create()");
-        String msg = null;
+        long boardNum=0;
 
    
         log.info(board.getContent());
@@ -32,13 +32,14 @@ public class BoardService {
             bRepo.save(board);
             log.info("boardNum : "+board.getBoardNum());
 
-            msg = "게시물 등록 성공";
+            boardNum = board.getBoardNum();
+
         } catch (Exception e) {
             log.info(e.getMessage());
-            msg = "게시물 등록 실패";
+            boardNum= 0;
         }
 
-        return msg;
+        return boardNum;
 
     }
 
