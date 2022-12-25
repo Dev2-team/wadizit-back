@@ -62,4 +62,11 @@ public class FundingController {
 
         return Serv.getMyList(funding, session);
     }
+
+    @PutMapping("/statusUpdate")
+    public String statusUpdate(@RequestBody Funding funding, Long fundingNum) {
+        log.info("statusUpdate()");
+        log.info(""+funding.getStatus());
+        return Serv.statusUpdate(funding, fundingNum);
+    }
 }

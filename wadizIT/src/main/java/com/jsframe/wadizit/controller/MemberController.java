@@ -4,6 +4,7 @@ import com.jsframe.wadizit.entity.Member;
 import com.jsframe.wadizit.service.MemberService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -78,5 +79,7 @@ public class MemberController {
     public List<Member> findAll(){
         return mServ.findAll();
     }
+
+
 
 }
