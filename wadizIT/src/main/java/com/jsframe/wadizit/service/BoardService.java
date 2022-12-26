@@ -53,10 +53,12 @@ public class BoardService {
         //게시판 작성자 번호
         long boardWriter = (bData.getMemberNum()).getMemberNum();
         long loginPerson = member.getMemberNum();
+        int logGrade = member.getGrade();
+
         log.info("게시판 작성자 번호 : " + boardWriter);
         log.info("로그인한 사람 정보 : " + loginPerson);
 
-        if (boardWriter == loginPerson) {
+        if (logGrade == 1 || boardWriter == loginPerson) {
             try {
                 bRepo.deleteById(boardNum);
                 msg = "삭제 성공";
@@ -69,6 +71,7 @@ public class BoardService {
         }
         return msg;
     }
+
 
     public Iterable<Board> getList(Board board) {
         log.info("getList()");

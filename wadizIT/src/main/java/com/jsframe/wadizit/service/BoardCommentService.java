@@ -1,8 +1,11 @@
 package com.jsframe.wadizit.service;
 
+import com.jsframe.wadizit.entity.Board;
 import com.jsframe.wadizit.entity.BoardComment;
+import com.jsframe.wadizit.entity.Funding;
 import com.jsframe.wadizit.entity.Member;
 import com.jsframe.wadizit.repository.BoardCommentRepository;
+import com.jsframe.wadizit.repository.BoardRepository;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,13 +15,17 @@ import org.springframework.stereotype.Service;
 public class BoardCommentService {
     @Autowired
     private BoardCommentRepository bcRepo;
+    @Autowired
+    private BoardRepository bRepo;
 
     // 게시글 댓글 작성
-    public String create(BoardComment boardComment, Member member) {
+    public String create(BoardComment boardComment, Long boardNum, Member member) {
         log.info("create()");
         String msg = null;
 
         try {
+            Board bNum = bRepo.findById(boardNum).get();
+            boardComment.setBoardNum(bNum);
             boardComment.setMemberNum(member);
             bcRepo.save(boardComment);
 

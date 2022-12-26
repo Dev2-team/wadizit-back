@@ -80,6 +80,8 @@ public class FundingService {
 
         //로그인한 사람의 memberNum
         long loginPerson = member.getMemberNum();
+        // 로그인한 사람의 grade
+        int logGrade = member.getGrade();
         //펀드 작성자의 memberNum
         Funding fund3 = fRepo.findById(fundingNum).get();
         long fundWriter = (fund3.getMemberNum()).getMemberNum();
@@ -88,13 +90,13 @@ public class FundingService {
         Funding funding3 = fRepo.findById(fundingNum).get();
         funding3.setTitle(funding.getTitle());
 
-        if ( loginPerson == fundWriter) {
+        if ( logGrade == 1 || loginPerson == fundWriter) {
 
             fund3.setTitle(funding.getTitle());
             fund3.setCategory(funding.getCategory());
             fund3.setStartDate(funding.getStartDate());
             fund3.setEndDate(funding.getEndDate());
-
+            fund3.setStatus(funding.getStatus());
 
             try {
                 fRepo.save(funding3);
@@ -106,9 +108,29 @@ public class FundingService {
         else{
             msg = "작성자만 수정 가능합니다";
         }
+
         return msg;
 
     }
+
+//    // 지울 예정
+//    public String statusUpdate(Funding funding, Long fundingNum) {
+//        log.info("statusUpdate()");
+//        String msg = null;
+//
+//        Funding fData = fRepo.findById(fundingNum).get();
+//
+//        try {
+//            fData.setStatus(funding.getStatus());
+//            fRepo.save(fData);
+//            msg = "상태 수정 성공";
+//        } catch (Exception e) {
+//            log.info(e.getMessage());
+//            msg = "상태 수정 실패";
+//        }
+//
+//        return msg;
+//    }
 
     //펀딩 생성 내역 리스트(로그인한 유저)
     public List<Funding> getMyList(Funding funding, HttpSession session) {

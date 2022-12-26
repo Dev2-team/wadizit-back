@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Log
 @RestController
@@ -70,5 +71,12 @@ public class MemberController {
     @GetMapping("/checkNickname")
     public int checkNickname(@RequestParam String nickname) {
         return mServ.checkNickname(nickname);
+    }
+
+    // 회원 전체 리스트 출력
+    @GetMapping("/list")
+    public List<Member> getList() {
+        log.info("getList()");
+        return mServ.getList();
     }
 }

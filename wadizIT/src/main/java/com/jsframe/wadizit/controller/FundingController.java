@@ -62,4 +62,11 @@ public class FundingController {
 
         return Serv.getMyList(funding, session);
     }
+
+//    // 지울 예정
+//    @PutMapping("/statusUpdate")
+//    public String statusUpdate(@RequestBody Funding funding, Long fundingNum) {
+//        log.info("statusUpdate()");
+//        return Serv.statusUpdate(funding, fundingNum);
+//    }
 }

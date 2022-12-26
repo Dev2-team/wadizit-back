@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Service
 @Log
@@ -118,4 +119,7 @@ public class MemberService {
     }
 
 
+    public List<Member> getList() {
+        return mRepo.findAll();
+    }
 }
