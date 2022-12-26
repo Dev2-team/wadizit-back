@@ -8,9 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 @Service
 @Log
@@ -121,11 +119,4 @@ public class MemberService {
         log.info("checkNickname");
         return mRepo.countMemberByNickname(nickname);
     }
-
-    public List<Member> findAll() {
-        log.info("findAll");
-        return mRepo.findAll();
-    }
-
-
 }

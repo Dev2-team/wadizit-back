@@ -1,5 +1,6 @@
 package com.jsframe.wadizit.controller;
 
+import com.jsframe.wadizit.entity.Board;
 import com.jsframe.wadizit.entity.BoardComment;
 import com.jsframe.wadizit.entity.Member;
 import com.jsframe.wadizit.service.BoardCommentService;
@@ -17,10 +18,10 @@ public class BoardCommentController {
     private BoardCommentService bcServ;
 
     @PostMapping("")
-    public String create(@RequestBody BoardComment boardComment, HttpSession session) {
+    public String create(@RequestBody BoardComment boardComment, Long boardNum, HttpSession session) {
         log.info("create()");
         Member member = (Member) session.getAttribute("mem");
-        String msg = bcServ.create(boardComment, member);
+        String msg = bcServ.create(boardComment, boardNum, member);
         return msg;
     }
 
