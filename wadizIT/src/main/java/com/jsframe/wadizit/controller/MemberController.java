@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+import java.util.Map;
+
 @Log
 @RestController
 @RequestMapping("/member")
@@ -78,7 +80,4 @@ public class MemberController {
     public List<Member> findAll(){
         return mServ.findAll();
     }
-
-
-
 }
