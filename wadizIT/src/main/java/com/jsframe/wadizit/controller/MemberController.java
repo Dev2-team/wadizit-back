@@ -72,11 +72,4 @@ public class MemberController {
     public int checkNickname(@RequestParam String nickname) {
         return mServ.checkNickname(nickname);
     }
-
-    // 회원 전체 리스트 출력
-    @GetMapping("/list")
-    public List<Member> getList() {
-        log.info("getList()");
-        return mServ.getList();
-    }
 }

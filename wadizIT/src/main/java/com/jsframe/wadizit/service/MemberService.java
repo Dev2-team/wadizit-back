@@ -117,9 +117,4 @@ public class MemberService {
         log.info("checkNickname");
         return mRepo.countMemberByNickname(nickname);
     }
-
-
-    public List<Member> getList() {
-        return mRepo.findAll();
-    }
 }
