@@ -1,12 +1,15 @@
 package com.jsframe.wadizit.service;
 
 import com.jsframe.wadizit.entity.Board;
-
 import com.jsframe.wadizit.entity.Member;
 import com.jsframe.wadizit.repository.BoardRepository;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 
 @org.springframework.stereotype.Service
@@ -16,32 +19,43 @@ public class BoardService {
     private BoardRepository bRepo;
 
     @Transactional
-    public String create(Board board, Member member) {
+        public long create(Board board, Member member) {
         log.info("create()");
-        String msg = null;
+        long boardNum=0;
 
-        log.info("" + board.getBoardNum());
+   
         log.info(board.getContent());
         log.info(board.getTitle());
 
         try {
             board.setMemberNum(member);
             bRepo.save(board);
-            msg = "게시물 등록 성공";
+            log.info("boardNum : "+board.getBoardNum());
+
+            boardNum = board.getBoardNum();
+
         } catch (Exception e) {
             log.info(e.getMessage());
-            msg = "게시물 등록 실패";
+            boardNum= 0;
         }
 
-        return msg;
+        return boardNum;
 
     }
 
-    public Board read(Long fBuyNum) {
+    public Board read(Long boardNum) {
         log.info("read()");
 
-        Board boa2 = bRepo.findById(fBuyNum).get();
-        log.info("출력 : " + boa2.getContent());
+
+        Board boa2 = bRepo.findById(boardNum).get();
+
+        //클릭시 조회수 올라가기
+        long view = boa2.getView();
+        boa2.setView(view+1);
+        bRepo.save(boa2);
+        
+        log.info("출력 : "+ boa2.getContent());
+
         return boa2;
     }
 

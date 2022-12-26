@@ -4,6 +4,7 @@ import com.jsframe.wadizit.entity.Member;
 import com.jsframe.wadizit.service.MemberService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -26,9 +27,9 @@ public class MemberController {
 
     // 로그인
     @PostMapping("/login")
-    public long login(@RequestBody Member member, HttpSession session) {
+    public Map<Object, Object> login(@RequestBody Member member, HttpSession session) {
         session.setAttribute("mem", member);
-        long result = mServ.login(member, session);
+        Map<Object, Object> result = mServ.login(member, session);
         return result;
     }
 
@@ -72,4 +73,12 @@ public class MemberController {
     public int checkNickname(@RequestParam String nickname) {
         return mServ.checkNickname(nickname);
     }
+
+    @GetMapping("/findAll")
+    public List<Member> findAll(){
+        return mServ.findAll();
+    }
+
+
+
 }
