@@ -14,7 +14,7 @@ public class FundingComment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long fComNum;
+    private long fundingComNum;
 
     @Column(nullable = false, length = 100)
     private String content;

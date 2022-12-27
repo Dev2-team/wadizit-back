@@ -25,7 +25,7 @@ public class Member {
     @Column(nullable = false, length = 10)
     private String name;
 
-    @Column(length = 12)
+    @Column(length = 20)
     private String phone;
 
     @Column(length = 30)

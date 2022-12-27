@@ -39,13 +39,13 @@ public class Funding {
     private Timestamp endDate;
 
     //카테고리
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 20)
     @ColumnDefault("0")
     private String category;
 
     //상태(0:대기/1:승인/2:진행/3:종료/4:반려)
     @Column(nullable = false)
-    private int status;
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "memberNum")
