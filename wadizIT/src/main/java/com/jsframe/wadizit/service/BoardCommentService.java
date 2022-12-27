@@ -28,7 +28,7 @@ public class BoardCommentService {
             boardComment.setMemberNum(member);
             bcRepo.save(boardComment);
 
-            log.info("bComNum : " + boardComment.getBComNum());
+            log.info("bComNum : " + boardComment.getBoardComNum());
             log.info("memberNum : " + boardComment.getMemberNum());
             log.info("content : " + boardComment.getContent());
             log.info("date : " + boardComment.getDate());
