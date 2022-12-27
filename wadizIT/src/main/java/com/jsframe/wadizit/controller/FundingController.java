@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Log
@@ -63,5 +64,11 @@ public class FundingController {
         return Serv.getMyList(funding, session);
     }
 
+    //페이징 처리
+    @GetMapping("/page")
+    public Map<String, Object> getPage(@RequestParam Integer pageNum, HttpSession session){
+        log.info("getPage()");
+        return Serv.getFundingPage(pageNum);
+    }
 
 }
