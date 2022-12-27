@@ -25,24 +25,24 @@ public class BoardCommentController {
     }
 
     @GetMapping("")
-    public BoardComment read(Long bComNum) {
+    public BoardComment read(Long boardComNum) {
         log.info("read()");
-        return bcServ.read(bComNum);
+        return bcServ.read(boardComNum);
     }
 
     @PutMapping("")
-    public String update(@RequestBody BoardComment boardComment, HttpSession session, Long bComNum) {
+    public String update(@RequestBody BoardComment boardComment, HttpSession session, Long boardComNum) {
         log.info("update()");
         Member member = (Member) session.getAttribute("mem");
-        String msg = bcServ.update(boardComment, member, bComNum);
+        String msg = bcServ.update(boardComment, member, boardComNum);
         return msg;
     }
 
     @DeleteMapping("")
-    public String delete(HttpSession session, Long bComNum) {
+    public String delete(HttpSession session, Long boardComNum) {
         log.info("delete()");
         Member member = (Member) session.getAttribute("mem");
-        String msg = bcServ.delete(member, bComNum);
+        String msg = bcServ.delete(member, boardComNum);
         return msg;
     }
 
