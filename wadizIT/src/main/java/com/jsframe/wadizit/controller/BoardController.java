@@ -6,8 +6,10 @@ import com.jsframe.wadizit.service.BoardService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Log
 @RestController
@@ -18,11 +20,11 @@ public class BoardController {
 
     //게시글 생성
     @PostMapping("")
-    public String create(@RequestBody Board board, HttpSession session) {
+    public long create(@RequestBody Board board, HttpSession session){
         log.info("create()");
         Member member = (Member) session.getAttribute("mem");
-        String msg = Serv.create(board, member);
-        return msg;
+        long boardNum = Serv.create(board, member);
+        return boardNum;
     }
 
     //게시글 읽기

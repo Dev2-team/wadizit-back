@@ -19,16 +19,21 @@ public class FundingCommentService {
     @Autowired
     private FundingCommentRepository fcRepo;
 
-    public String create(FundingComment fCom, Member member, Long fundingNum) {
+
+
+    public String create(FundingComment fundCom, Member member, Long fundingNum) {
+
         log.info("create()");
         String msg = null;
 
         Funding funding = fRepo.findById(fundingNum).get();
-        fCom.setFundingNum(funding);
-        fCom.setMemberNum(member);
+        fundCom.setFundingNum(funding);
+        fundCom.setMemberNum(member);
 
-        try {
-            fcRepo.save(fCom);
+
+        try{
+            fcRepo.save(fundCom);
+
             msg = "댓글 입력 성공";
         } catch (Exception e) {
             msg = "댓글 입력 실패";

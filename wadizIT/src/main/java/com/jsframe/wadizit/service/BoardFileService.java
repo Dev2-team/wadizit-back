@@ -2,6 +2,7 @@ package com.jsframe.wadizit.service;
 
 import com.jsframe.wadizit.entity.Board;
 import com.jsframe.wadizit.entity.BoardFile;
+import com.jsframe.wadizit.entity.Member;
 import com.jsframe.wadizit.repository.BoardFileRepository;
 import com.jsframe.wadizit.repository.BoardRepository;
 import lombok.extern.java.Log;
@@ -29,17 +30,22 @@ import java.util.List;
 @Transactional
 public class BoardFileService {
     @Autowired
-    private BoardRepository bRefo;
+
+    private BoardRepository bRepo;
+
     @Autowired
-    private BoardFileRepository bfRefo;
+    private BoardFileRepository bfRepo;
 
     public String upload(List<MultipartFile> files,
-                         HttpSession session, long boardNum)
+                         HttpSession session, Long boardNum)
             throws Exception {
         log.info("upload()");
 
         // 파일 저장 위치 지정
         String realPath = session.getServletContext().getRealPath("/");
+
+        log.info("realPath : " + realPath);
+
         realPath += "upload/";
 
         File folder = new File(realPath);
@@ -47,6 +53,9 @@ public class BoardFileService {
             folder.mkdir();
         }
 
+
+        log.info("files : " + files);
+       
         for (MultipartFile mf : files) {
             String originName = mf.getOriginalFilename();
 
@@ -56,8 +65,9 @@ public class BoardFileService {
 
             BoardFile boardFile = new BoardFile();
 
-            boardFile.setBoardNum(bRefo.findById(boardNum).get());
+            boardFile.setBoardNum(bRepo.findById(boardNum).get());
             boardFile.setOriginName(originName);
+
 
             String sysName = System.currentTimeMillis()
                     + originName.substring(originName.lastIndexOf("."));
@@ -67,15 +77,19 @@ public class BoardFileService {
 
             mf.transferTo(file); // upload 폴더에 파일 저장
 
-            bfRefo.save(boardFile);
-        }
 
+            bfRepo.save(boardFile);
+        }
+        
         return "파일 업로드를 성공했습니다.";
+
     }
 
     public BoardFile read(Long boardFileNum) {
         log.info("read()");
-        BoardFile boardFile = bfRefo.findById(boardFileNum).get();
+
+        BoardFile boardFile = bfRepo.findById(boardFileNum).get();
+
         log.info("파일 정보 : " + boardFile);
         return boardFile;
     }
@@ -97,12 +111,14 @@ public class BoardFileService {
 //        return msg;
 //    }
 
-    public String delete(HttpSession session, long boardFileNum) {
+    public String delete(HttpSession sessionFile, long boardFileNum) {
         log.info("delete()");
         String msg = null;
 
-        String realPath = session.getServletContext().getRealPath("/");
+        String realPath = sessionFile.getServletContext().getRealPath("/");
         realPath += "upload";
+
+        bfRepo.findById(boardFileNum).get();
 
         try {
             BoardFile boardFile = new BoardFile();
@@ -111,7 +127,7 @@ public class BoardFileService {
             File file = new File(delPath);
             file.delete();
 
-            bfRefo.deleteById(boardFileNum);
+            bfRepo.deleteById(boardFileNum);
 
             msg = "파일 삭제 완료";
         } catch (Exception e) {
@@ -124,8 +140,9 @@ public class BoardFileService {
     public Iterable<BoardFile> getList(long boardNum) {
         log.info("getList()");
 
-        Board bNum = bRefo.findById(boardNum).get();
-        Iterable<BoardFile> bfList = bfRefo.findAllByBoardNum(bNum);
+        Board bNum = bRepo.findById(boardNum).get();
+        Iterable<BoardFile> bfList = bfRepo.findAllByBoardNum(bNum);
+
         return bfList;
     }
 
@@ -133,7 +150,7 @@ public class BoardFileService {
             throws IOException {
         log.info("download()");
 
-        BoardFile bFile = bfRefo.findById(boardFileNum).get();
+        BoardFile bFile = bfRepo.findById(boardFileNum).get();
 
         String realPath = session.getServletContext().getRealPath("/");
         realPath += "upload/" + bFile.getSysName();
@@ -149,4 +166,43 @@ public class BoardFileService {
                         "attachment; filename=" + fileName)
                 .body(fResource);
     }
+
+    public String deleteAll(long boardNum, HttpSession sessionFile, Member member) {
+        log.info("deleteAll()");
+        String msg = null;
+
+        Board bData = bRepo.findById(boardNum).get();
+        //로그인한 사람의 정보
+        long loginPerson = member.getMemberNum();
+        //글쓴이의 정보
+        long writer = (bData.getMemberNum()).getMemberNum();
+
+        log.info("loginPerson : " +loginPerson);
+        log.info("write : " + writer);
+
+        String realPath = sessionFile.getServletContext().getRealPath("/");
+        realPath += "upload";
+
+        if(loginPerson==writer){
+
+            try {
+                BoardFile boardFile = new BoardFile();
+                String delPath = realPath + boardFile.getSysName();
+
+                File file = new File(delPath);
+                file.delete();
+
+                bfRepo.deleteAllByBoardNum(bData);
+
+                msg = "파일 삭제 완료";
+            } catch (Exception e) {
+                msg = "파일 삭제 실패";
+            }
+
+        } else {
+            msg = "글 작성자만 삭제 가능합니다.";
+        }
+        return  msg;
+    }
 }
+
