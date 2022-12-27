@@ -2,7 +2,6 @@ package com.jsframe.wadizit.service;
 
 import com.jsframe.wadizit.entity.Board;
 import com.jsframe.wadizit.entity.BoardComment;
-import com.jsframe.wadizit.entity.Funding;
 import com.jsframe.wadizit.entity.Member;
 import com.jsframe.wadizit.repository.BoardCommentRepository;
 import com.jsframe.wadizit.repository.BoardRepository;
@@ -103,9 +102,10 @@ public class BoardCommentService {
     }
 
     // 게시글 댓글 리스트 출력
-    public Iterable<BoardComment> getList() {
+    public Iterable<BoardComment> getList(Long boardNum) {
         log.info("getList()");
-        Iterable<BoardComment> bcList = bcRepo.findAll();
+        Board bNum = bRepo.findById(boardNum).get();
+        Iterable<BoardComment> bcList = bcRepo.findAllByBoardNum(bNum);
 
         return bcList;
     }

@@ -1,6 +1,5 @@
 package com.jsframe.wadizit.controller;
 
-import com.jsframe.wadizit.entity.Board;
 import com.jsframe.wadizit.entity.BoardComment;
 import com.jsframe.wadizit.entity.Member;
 import com.jsframe.wadizit.service.BoardCommentService;
@@ -48,8 +47,8 @@ public class BoardCommentController {
     }
 
     @GetMapping("list")
-    public Iterable<BoardComment> getList() {
+    public Iterable<BoardComment> getList(Long boardNum) {
         log.info("getList()");
-        return bcServ.getList();
+        return bcServ.getList(boardNum);
     }
 }
