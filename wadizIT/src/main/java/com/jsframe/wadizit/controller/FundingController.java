@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @Log
@@ -54,4 +56,19 @@ public class FundingController {
         log.info(""+member);
         return Serv.update(funding, fundingNum, member);
     }
+
+    //펀딩 생성 내역 리스트(로그인한 유저)
+    @GetMapping("/plist")
+    public List<Funding> getMyList(Funding funding, HttpSession session){
+
+        return Serv.getMyList(funding, session);
+    }
+
+    //페이징 처리
+    @GetMapping("/page")
+    public Map<String, Object> getPage(@RequestParam Integer pageNum, HttpSession session){
+        log.info("getPage()");
+        return Serv.getFundingPage(pageNum);
+    }
+
 }

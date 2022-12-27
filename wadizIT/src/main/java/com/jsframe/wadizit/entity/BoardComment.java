@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 public class BoardComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long bComNum;
+    private long boardComNum;
 
     @ManyToOne
     @JoinColumn(name = "memberNum")

@@ -11,10 +11,10 @@ public class BoardFile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long boardFileNum;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 100)
     private String originName;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 100)
     private String sysName;
 
     @ManyToOne

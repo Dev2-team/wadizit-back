@@ -1,6 +1,7 @@
 package com.jsframe.wadizit.controller;
 
 import com.jsframe.wadizit.entity.BoardFile;
+import com.jsframe.wadizit.entity.Member;
 import com.jsframe.wadizit.service.BoardFileService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
@@ -42,9 +42,9 @@ public class BoardFileController {
 //    }
 
     @DeleteMapping("")
-    public String delete(HttpSession session, long boardFileNum) {
+    public String delete(HttpSession sessionFile, long boardFileNum) {
         log.info("delete()");
-        String msg = bfServ.delete(session, boardFileNum);
+        String msg = bfServ.delete(sessionFile, boardFileNum);
         return msg;
     }
 
@@ -60,4 +60,13 @@ public class BoardFileController {
         log.info("download()");
         return bfServ.download(boardFileNum, session);
     }
+
+    @DeleteMapping("deleteAll")
+    public String deleteAll(long boardNum, HttpSession sessionFile, HttpSession session ) {
+        log.info("deleteAll()");
+        Member member = (Member) session.getAttribute("mem");
+        String msg = bfServ.deleteAll(boardNum, sessionFile, member);
+        return msg;
+    }
+
 }

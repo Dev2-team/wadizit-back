@@ -6,6 +6,9 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
+
 public interface BoardFileRepository extends CrudRepository<BoardFile, Long> {
     Iterable<BoardFile> findAllByBoardNum(Board boardNum);
+
+    void deleteAllByBoardNum(Board bData);
 }

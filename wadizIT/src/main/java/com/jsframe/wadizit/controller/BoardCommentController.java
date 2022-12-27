@@ -17,38 +17,38 @@ public class BoardCommentController {
     private BoardCommentService bcServ;
 
     @PostMapping("")
-    public String create(@RequestBody BoardComment boardComment, HttpSession session) {
+    public String create(@RequestBody BoardComment boardComment, Long boardNum, HttpSession session) {
         log.info("create()");
         Member member = (Member) session.getAttribute("mem");
-        String msg = bcServ.create(boardComment, member);
+        String msg = bcServ.create(boardComment, boardNum, member);
         return msg;
     }
 
     @GetMapping("")
-    public BoardComment read(Long bComNum) {
+    public BoardComment read(Long boardComNum) {
         log.info("read()");
-        return bcServ.read(bComNum);
+        return bcServ.read(boardComNum);
     }
 
     @PutMapping("")
-    public String update(@RequestBody BoardComment boardComment, HttpSession session, Long bComNum) {
+    public String update(@RequestBody BoardComment boardComment, HttpSession session, Long boardComNum) {
         log.info("update()");
         Member member = (Member) session.getAttribute("mem");
-        String msg = bcServ.update(boardComment, member, bComNum);
+        String msg = bcServ.update(boardComment, member, boardComNum);
         return msg;
     }
 
     @DeleteMapping("")
-    public String delete(HttpSession session, Long bComNum) {
+    public String delete(HttpSession session, Long boardComNum) {
         log.info("delete()");
         Member member = (Member) session.getAttribute("mem");
-        String msg = bcServ.delete(member, bComNum);
+        String msg = bcServ.delete(member, boardComNum);
         return msg;
     }
 
     @GetMapping("list")
-    public Iterable<BoardComment> getList() {
+    public Iterable<BoardComment> getList(Long boardNum) {
         log.info("getList()");
-        return bcServ.getList();
+        return bcServ.getList(boardNum);
     }
 }

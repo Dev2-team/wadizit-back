@@ -17,11 +17,11 @@ public class FundingFile {
     private int fileType;
 
     //파일 원본 이름
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 100)
     private String originName;
 
     //파일 저장 이름
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 100)
     private String sysName;
 
     @ManyToOne
