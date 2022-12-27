@@ -39,6 +39,7 @@ public class BoardController {
     public String update(@RequestBody Board board, Long boardNum, HttpSession session) {
         log.info("update()");
         Member member = (Member) session.getAttribute("mem");
+
         return Serv.update(board, boardNum, member);
     }
 

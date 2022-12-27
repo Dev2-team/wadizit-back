@@ -1,5 +1,6 @@
 package com.jsframe.wadizit.controller;
 
+import com.jsframe.wadizit.entity.Funding;
 import com.jsframe.wadizit.entity.FundingComment;
 import com.jsframe.wadizit.entity.Member;
 import com.jsframe.wadizit.service.FundingCommentService;
@@ -53,9 +54,9 @@ public class FundingCommentController {
 
     //펀딩 댓글 리스트
     @GetMapping("/list")
-    public Iterable<FundingComment> getList() {
+    public Iterable<FundingComment> getList(Long fundingNum) {
         log.info("getList()");
-        Iterable<FundingComment> fComList = fcServ.getList();
+        Iterable<FundingComment> fComList = fcServ.getList(fundingNum);
         return fComList;
     }
 }

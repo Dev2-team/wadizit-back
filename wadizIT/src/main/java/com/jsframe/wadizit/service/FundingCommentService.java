@@ -49,9 +49,12 @@ public class FundingCommentService {
         return fCom;
     }
 
-    public Iterable<FundingComment> getList() {
+    public Iterable<FundingComment> getList(Long fundingNum) {
         log.info("getList()");
-        Iterable<FundingComment> fComList = fcRepo.findAll();
+        log.info(""+fundingNum);
+        Funding fData =(Funding) fRepo.findById(fundingNum).get();
+        Iterable<FundingComment> fComList = fcRepo.findAllByFundingNum(fData);
+
         return fComList;
     }
 
