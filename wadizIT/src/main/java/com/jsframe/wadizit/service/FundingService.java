@@ -1,10 +1,9 @@
 package com.jsframe.wadizit.service;
 
-import com.jsframe.wadizit.entity.FFF;
+import com.jsframe.wadizit.entity.FundingAndFileList;
 import com.jsframe.wadizit.entity.Funding;
 import com.jsframe.wadizit.entity.FundingFile;
 import com.jsframe.wadizit.entity.Member;
-import com.jsframe.wadizit.repository.FundingFileRepository;
 import com.jsframe.wadizit.repository.FundingRepository;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Handler;
 
 @Service
 @Log
@@ -189,16 +187,16 @@ public class FundingService {
 
 
         //funding list에 fundingfilelist 추가
-        List<FFF> fffList = new ArrayList<>();
+        List<FundingAndFileList> fffList = new ArrayList<>();
         // Funding List 순회
         // 각 Funding 객체에 해당하는 File 리스트얻기
         // FFF 객체 생성
         for (int i = 0; i < fList.size(); i++) {
             Funding f = fList.get(i);
             List<FundingFile> ffList = ffServ.getFundingFileList(f.getFundingNum());
-            FFF fff = new FFF();
-            fff.setF(f);
-            fff.setFfl(ffList);
+            FundingAndFileList fff = new FundingAndFileList();
+            fff.setFunding(f);
+            fff.setFundingFileList(ffList);
             fffList.add(fff);
         }
 
