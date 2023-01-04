@@ -34,4 +34,8 @@ public class Member {
     @Column(nullable = false)
     @ColumnDefault("0")
     private int grade;
+
+    @Column(nullable = false)
+    @ColumnDefault("0")
+    private int point;
 }
