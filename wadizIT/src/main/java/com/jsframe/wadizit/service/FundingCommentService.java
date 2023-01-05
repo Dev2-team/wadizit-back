@@ -36,6 +36,7 @@ public class FundingCommentService {
 
             msg = "댓글 입력 성공";
         } catch (Exception e) {
+            log.info(e.getMessage());
             msg = "댓글 입력 실패";
         }
 
@@ -58,19 +59,19 @@ public class FundingCommentService {
         return fComList;
     }
 
-    public String delete(Long fComNum, Member member) {
+    public String delete(Long fundingComNum, Member member) {
         log.info("delete()");
         String msg = null;
 
         //로그인한 사람 정보
         long loginPerson = member.getMemberNum();
         //댓글 작성자 정보(memberNum)
-        FundingComment fCom = fcRepo.findById(fComNum).get();
+        FundingComment fCom = fcRepo.findById(fundingComNum).get();
         long writer = (fCom.getMemberNum()).getMemberNum();
 
         if (loginPerson == writer) {
             try {
-                fcRepo.deleteById(fComNum);
+                fcRepo.deleteById(fundingComNum);
                 msg = "댓글 삭제 성공";
             } catch (Exception e) {
                 msg = "댓글 삭제 실패";
@@ -82,14 +83,14 @@ public class FundingCommentService {
         return msg;
     }
 
-    public String update(FundingComment fCom, Long fComNum, Member member) {
+    public String update(FundingComment fCom, Long fundingComNum, Member member) {
         log.info("update()");
         String msg = null;
 
         //로그인한 사람 정보
         long loginPerson = member.getMemberNum();
         //댓글 작성자
-        FundingComment fComData = fcRepo.findById(fComNum).get();
+        FundingComment fComData = fcRepo.findById(fundingComNum).get();
         long writer = (fComData.getMemberNum()).getMemberNum();
 
         if (loginPerson == writer) {

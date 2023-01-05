@@ -204,5 +204,8 @@ public class BoardFileService {
         }
         return  msg;
     }
+
+//    public String deleteList(List<MultipartFile> files, long boardNum, HttpSession sessionFile) {
+//    }
 }
 
