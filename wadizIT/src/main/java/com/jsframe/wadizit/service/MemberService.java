@@ -127,4 +127,22 @@ public class MemberService {
         log.info("findAll");
         return mRepo.findAll();
     }
+
+    public void point(Member member, int point) {
+        log.info("point()");
+
+        int memPoint = member.getPoint();
+
+        if (point == 10000) { point += 1000; }
+        else if (point == 20000) { point += 2000; }
+
+        int resPoint = memPoint + point;
+
+        try {
+            member.setPoint(resPoint);
+            mRepo.save(member);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
