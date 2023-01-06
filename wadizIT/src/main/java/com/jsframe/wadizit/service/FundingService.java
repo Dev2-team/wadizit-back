@@ -176,12 +176,12 @@ public class FundingService {
             pageNum = 1;
         }
 
-        int listCnt = 10;//페이지 당 보여질 게시글의 개수.
+        int listCnt = 20;//페이지 당 보여질 게시글의 개수.
         //페이징 조건 생성
         Pageable pb = PageRequest.of((pageNum - 1), listCnt,
                 Sort.Direction.DESC, "fundingNum");
 
-        Page<Funding> result = fRepo.findByFundingNumGreaterThan(0L, pb);
+        Page<Funding> result = fRepo.findByFundingNumGreaterThanOrderByFundingNumAsc(0L, pb);
         List<Funding> fList = result.getContent();
         int totalPage = result.getTotalPages();
 
@@ -200,17 +200,18 @@ public class FundingService {
             fffList.add(fff);
         }
 
-
-
-
         // FFF 객체에 펀딩 객체와 파일리스트 저장
-
-
 
         Map<String, Object> res = new HashMap<>();
         res.put("totalPage", totalPage);
         res.put("pageNum", pageNum);
         res.put("fffList", fffList);
+        res.put("end", false);
+
+        // 마지막 페이지일 때
+        if(totalPage == pageNum) {
+            res.put("end", true);
+        }
 
         return res;
     }
