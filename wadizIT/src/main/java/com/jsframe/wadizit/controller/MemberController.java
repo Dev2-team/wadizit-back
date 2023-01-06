@@ -78,4 +78,11 @@ public class MemberController {
     public List<Member> findAll(){
         return mServ.findAll();
     }
+
+    @PutMapping("/point")
+    public void point(HttpSession session, int point) {
+        log.info("point()");
+        Member member = (Member) session.getAttribute("mem");
+        mServ.point(member, point);
+    }
 }
