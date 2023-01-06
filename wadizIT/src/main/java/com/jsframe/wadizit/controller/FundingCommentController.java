@@ -28,27 +28,28 @@ public class FundingCommentController {
 
     //펀딩 댓글 읽기
     @GetMapping("")
-    public FundingComment read(Long fComNum) {
+    public FundingComment read(Long fundingComNum) {
         log.info("read()");
-        FundingComment fCom2 = fcServ.read(fComNum);
+        FundingComment fCom2 = fcServ.read(fundingComNum);
         return fCom2;
     }
 
     //펀딩 댓글 수정
     @PutMapping("")
-    public String update(@RequestBody FundingComment fCom, Long fComNum, HttpSession session) {
+    public String update(@RequestBody FundingComment fCom, Long fundingComNum, HttpSession session) {
         log.info("update()");
         Member member = (Member) session.getAttribute("mem");
-        String msg = fcServ.update(fCom, fComNum, member);
+        String msg = fcServ.update(fCom, fundingComNum, member);
         return msg;
     }
 
     //펀딩 댓글 삭제
     @DeleteMapping("")
-    public String delete(Long fComNum, HttpSession session) {
+    public String delete(Long fundingComNum, HttpSession session) {
         log.info("delete()");
+        log.info("번호 :"+fundingComNum);
         Member member = (Member) session.getAttribute("mem");
-        String msg = fcServ.delete(fComNum, member);
+        String msg = fcServ.delete(fundingComNum, member);
         return msg;
     }
 
