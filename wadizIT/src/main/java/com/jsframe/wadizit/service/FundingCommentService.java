@@ -21,26 +21,18 @@ public class FundingCommentService {
 
 
 
-    public String create(FundingComment fundCom, Member member, Long fundingNum) {
-
+    public FundingComment create(FundingComment fundCom, Member member, Long fundingNum) {
         log.info("create()");
-        String msg = null;
-
         Funding funding = fRepo.findById(fundingNum).get();
         fundCom.setFundingNum(funding);
         fundCom.setMemberNum(member);
 
-
         try{
             fcRepo.save(fundCom);
-
-            msg = "댓글 입력 성공";
         } catch (Exception e) {
             log.info(e.getMessage());
-            msg = "댓글 입력 실패";
         }
-
-        return msg;
+        return fundCom;
     }
 
     public FundingComment read(Long fComNum) {
