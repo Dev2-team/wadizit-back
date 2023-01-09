@@ -176,7 +176,7 @@ public class FundingService {
             pageNum = 1;
         }
 
-        int listCnt = 20;//페이지 당 보여질 게시글의 개수.
+        int listCnt = 18;//페이지 당 보여질 게시글의 개수.
         //페이징 조건 생성
         Pageable pb = PageRequest.of((pageNum - 1), listCnt,
                 Sort.Direction.DESC, "fundingNum");
