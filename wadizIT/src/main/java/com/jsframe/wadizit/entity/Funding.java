@@ -29,12 +29,10 @@ public class Funding {
     private long currentAmount;
 
     //시작 날짜
-    @CreationTimestamp
     @Column(nullable = false)
     private Timestamp startDate;
 
     //종료 날짜
-    @CreationTimestamp
     @Column(nullable = false)
     private Timestamp endDate;
 

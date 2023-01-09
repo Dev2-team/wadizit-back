@@ -20,11 +20,11 @@ public class FundingController {
 
     //펀딩 생성
     @PostMapping("")
-    public String create(@RequestBody Funding funding, HttpSession session){
+    public long create(@RequestBody Funding funding, HttpSession session){
         log.info("create()");
         Member member = (Member) session.getAttribute("mem");
-        String msg = Serv.create(funding, member);
-        return msg;
+        long fundingNum = Serv.create(funding, member);
+        return fundingNum;
     }
 
     //펀딩 게시글 읽기
