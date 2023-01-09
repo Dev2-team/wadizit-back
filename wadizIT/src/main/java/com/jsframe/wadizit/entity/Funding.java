@@ -16,7 +16,7 @@ public class Funding {
     private long fundingNum;
 
     //펀딩 제목
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 30)
     private String title;
 
     //목표 금액
