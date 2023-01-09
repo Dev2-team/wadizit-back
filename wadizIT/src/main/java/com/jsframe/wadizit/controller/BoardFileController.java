@@ -69,4 +69,10 @@ public class BoardFileController {
         return msg;
     }
 
+//    @DeleteMapping("deleteList")
+//    public String deleteList(List<MultipartFile> files, long boardNum, HttpSession sessionFile) throws Exception{
+//        log.info("deleteList()");
+//        String msg = bfServ.deleteList(files, boardNum,sessionFile);
+//    }
+
 }
