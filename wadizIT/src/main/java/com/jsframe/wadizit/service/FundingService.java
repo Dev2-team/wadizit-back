@@ -31,24 +31,24 @@ public class FundingService {
     private FundingFileService ffServ;
 
     //펀딩 게시글 생성
-    public String create(Funding funding, Member member) {
+    public long create(Funding funding, Member member) {
         log.info("create()");
-        String msg = null;
+        long fundingNum = 0;
 
         log.info(""+funding.getFundingNum());
         //log.info(funding.getContent());
         log.info(funding.getTitle());
-        funding.setMemberNum(member);
 
         try{
+            funding.setMemberNum(member);
             fRepo.save(funding);
-            msg = "펀딩 등록 성공";
+            fundingNum = funding.getFundingNum();
         } catch (Exception e){
             log.info(e.getMessage());
-            msg = "펀딩 등록 실패";
+            fundingNum = 0 ;
         }
 
-        return msg;
+        return fundingNum;
 
     }
 
