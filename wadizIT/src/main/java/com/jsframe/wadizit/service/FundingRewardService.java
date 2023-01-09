@@ -2,7 +2,6 @@ package com.jsframe.wadizit.service;
 
 import com.jsframe.wadizit.entity.Funding;
 import com.jsframe.wadizit.entity.Reward;
-import com.jsframe.wadizit.repository.AuctionRepository;
 import com.jsframe.wadizit.repository.FundingRewardRepository;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +10,6 @@ import org.springframework.stereotype.Service;
 @Log
 @Service
 public class FundingRewardService {
-    @Autowired
-    private AuctionRepository auctionRepository;
 
     @Autowired
     private FundingRewardRepository frRepo;

@@ -16,7 +16,7 @@ public class Funding {
     private long fundingNum;
 
     //펀딩 제목
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 30)
     private String title;
 
     //목표 금액
@@ -29,12 +29,10 @@ public class Funding {
     private long currentAmount;
 
     //시작 날짜
-    @CreationTimestamp
     @Column(nullable = false)
     private Timestamp startDate;
 
     //종료 날짜
-    @CreationTimestamp
     @Column(nullable = false)
     private Timestamp endDate;
 

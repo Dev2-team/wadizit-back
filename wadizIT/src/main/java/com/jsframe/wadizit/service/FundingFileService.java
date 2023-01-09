@@ -83,15 +83,27 @@ public class FundingFileService {
             folder.mkdir();//폴더 생성 메소드
         }
 
-        for (MultipartFile mf : files) {
+        for (int i=0; i<files.size(); i++) {
+            log.info(files.size()+"size");
+            MultipartFile mf = files.get(i);
             String orname = mf.getOriginalFilename();//업로드 파일명 가져오기
             if (orname.equals("")) {
                 //업로드하는 파일이 없는 상태.
                 return "업로드 파일 없음!";//파일 저장 처리 중지!
             }
+            FundingFile ff = new FundingFile();
+
+            if (i==0){
+                ff.setFileType(0);
+            }
+            else if (i==1){
+                ff.setFileType(1);
+            }
+            else
+                ff.setFileType(2);
+
 
             //파일 정보를 저장(to fundingfiletbl)
-            FundingFile ff = new FundingFile();
             ff.setFundingNum(fRepo.findById(fundingnum).get());
             ff.setOriginName(orname);
             String sysname = System.currentTimeMillis()

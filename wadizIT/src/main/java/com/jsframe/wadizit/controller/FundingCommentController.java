@@ -19,11 +19,11 @@ public class FundingCommentController {
 
     //펀딩 댓글 작성
     @PostMapping("")
-    public String create(@RequestBody FundingComment fCom, HttpSession session, Long fundingNum) {
+    public FundingComment create(@RequestBody FundingComment fCom, HttpSession session, Long fundingNum) {
         log.info("create()");
         Member member = (Member) session.getAttribute("mem");
-        String msg = fcServ.create(fCom, member, fundingNum);
-        return msg;
+        FundingComment fc = fcServ.create(fCom, member, fundingNum);
+        return fc;
     }
 
     //펀딩 댓글 읽기

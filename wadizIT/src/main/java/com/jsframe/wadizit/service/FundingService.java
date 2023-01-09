@@ -29,24 +29,24 @@ public class FundingService {
     private FundingFileService ffServ;
 
     //펀딩 게시글 생성
-    public String create(Funding funding, Member member) {
+    public long create(Funding funding, Member member) {
         log.info("create()");
-        String msg = null;
+        long fundingNum = 0;
 
         log.info(""+funding.getFundingNum());
         //log.info(funding.getContent());
         log.info(funding.getTitle());
-        funding.setMemberNum(member);
 
         try{
+            funding.setMemberNum(member);
             fRepo.save(funding);
-            msg = "펀딩 등록 성공";
+            fundingNum = funding.getFundingNum();
         } catch (Exception e){
             log.info(e.getMessage());
-            msg = "펀딩 등록 실패";
+            fundingNum = 0 ;
         }
 
-        return msg;
+        return fundingNum;
 
     }
 
@@ -123,49 +123,12 @@ public class FundingService {
 
     }
 
-//    // 지울 예정
-//    public String statusUpdate(Funding funding, Long fundingNum) {
-//        log.info("statusUpdate()");
-//        String msg = null;
-//
-//        Funding fData = fRepo.findById(fundingNum).get();
-//
-//        try {
-//            fData.setStatus(funding.getStatus());
-//            fRepo.save(fData);
-//            msg = "상태 수정 성공";
-//        } catch (Exception e) {
-//            log.info(e.getMessage());
-//            msg = "상태 수정 실패";
-//        }
-//
-//        return msg;
-//    }
-
     //펀딩 생성 내역 리스트(로그인한 유저)
     public List<Funding> getMyList(Funding funding, HttpSession session) {
         Member member = (Member) session.getAttribute("mem");
         funding.setMemberNum(member);
         List<Funding> myList = fRepo.findAllByMemberNum(member);
         return myList;
-    }
-
-    public String statusUpdate(Funding funding, Long fundingNum) {
-        log.info("statusUpdate()");
-        String msg = null;
-
-        Funding fData = fRepo.findById(fundingNum).get();
-
-        try {
-            fData.setStatus(funding.getStatus());
-            fRepo.save(fData);
-            msg = "상태 수정 성공";
-        } catch (Exception e) {
-            log.info(e.getMessage());
-            msg = "상태 수정 실패";
-        }
-
-        return msg;
     }
 
     //페이징 처리
