@@ -2,12 +2,11 @@ package com.jsframe.wadizit.controller;
 
 import com.jsframe.wadizit.entity.Member;
 import com.jsframe.wadizit.entity.Payment;
+import com.jsframe.wadizit.repository.MemberRepository;
 import com.jsframe.wadizit.service.PaymentService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
@@ -18,12 +17,16 @@ import java.sql.Date;
 public class PaymentController {
 
     @Autowired
+    private MemberRepository mRepo;
+
+    @Autowired
     private PaymentService pServ;
 
-    @PostMapping
-    public void save(String oNum, String oName, Date date, HttpSession session) {
+    @GetMapping
+    public void save(@RequestParam String oNum, @RequestParam String date, @RequestParam String id) {
         log.info("save()");
-        Member member = (Member) session.getAttribute("mem");
-        pServ.save(oNum, oName, date, member);
+        Member mem = mRepo.findMemberById(id);
+        log.info("mem : " + mem);
+        pServ.save(oNum, date, mem);
     }
 }
