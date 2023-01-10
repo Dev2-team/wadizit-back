@@ -17,11 +17,11 @@ public class BoardCommentController {
     private BoardCommentService bcServ;
 
     @PostMapping("")
-    public String create(@RequestBody BoardComment boardComment, Long boardNum, HttpSession session) {
+    public BoardComment create(@RequestBody BoardComment boardComment, Long boardNum, HttpSession session) {
         log.info("create()");
         Member member = (Member) session.getAttribute("mem");
-        String msg = bcServ.create(boardComment, boardNum, member);
-        return msg;
+        BoardComment bc = bcServ.create(boardComment, boardNum, member);
+        return bc;
     }
 
     @GetMapping("")
@@ -31,11 +31,11 @@ public class BoardCommentController {
     }
 
     @PutMapping("")
-    public String update(@RequestBody BoardComment boardComment, HttpSession session, Long boardComNum) {
+    public BoardComment update(@RequestBody BoardComment boardComment, HttpSession session, Long boardComNum) {
         log.info("update()");
         Member member = (Member) session.getAttribute("mem");
-        String msg = bcServ.update(boardComment, member, boardComNum);
-        return msg;
+        BoardComment bc = bcServ.update(boardComment, member, boardComNum);
+        return bc;
     }
 
     @DeleteMapping("")

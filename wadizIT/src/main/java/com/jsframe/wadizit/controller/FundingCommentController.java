@@ -36,11 +36,11 @@ public class FundingCommentController {
 
     //펀딩 댓글 수정
     @PutMapping("")
-    public String update(@RequestBody FundingComment fCom, Long fundingComNum, HttpSession session) {
+    public FundingComment update(@RequestBody FundingComment fCom, Long fundingComNum, HttpSession session) {
         log.info("update()");
         Member member = (Member) session.getAttribute("mem");
-        String msg = fcServ.update(fCom, fundingComNum, member);
-        return msg;
+        FundingComment fc = fcServ.update(fCom, fundingComNum, member);
+        return fc;
     }
 
     //펀딩 댓글 삭제

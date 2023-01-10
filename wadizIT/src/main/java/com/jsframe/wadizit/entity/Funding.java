@@ -43,6 +43,7 @@ public class Funding {
 
     //상태(0:대기/1:승인/2:진행/3:종료/4:반려)
     @Column(nullable = false)
+    @ColumnDefault("대기")
     private String status;
 
     @ManyToOne
