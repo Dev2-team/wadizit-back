@@ -17,6 +17,9 @@ public class Payment {
     @Column(nullable = false, length = 30)
     private String orderNum;
 
+    @Column(nullable = false, length = 30)
+    private String orderName;
+
     @Column(nullable = false)
     private Timestamp date;
 
