@@ -12,14 +12,11 @@ public class Donate {
     private long donateNum;
 
     @Column(nullable = false)
-    private long quantity;
-
-    @Column(nullable = false)
     private long payAmount;
 
     @ManyToOne
-    @JoinColumn(name = "rewardNum")
-    private Reward rewardNum;
+    @JoinColumn(name = "fundingNum")
+    private Funding fundingNum;
 
     @ManyToOne
     @JoinColumn(name = "memberNum")
