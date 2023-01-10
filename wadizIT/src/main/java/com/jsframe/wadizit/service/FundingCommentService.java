@@ -75,9 +75,14 @@ public class FundingCommentService {
         return msg;
     }
 
-    public String update(FundingComment fCom, Long fundingComNum, Member member) {
+    public FundingComment update(FundingComment fCom, Long fundingComNum, Member member) {
         log.info("update()");
-        String msg = null;
+        FundingComment fc = null;
+
+        if (member == null) {
+            log.info("로그인 필요!");
+            return fc;
+        }
 
         //로그인한 사람 정보
         long loginPerson = member.getMemberNum();
@@ -89,16 +94,14 @@ public class FundingCommentService {
             try {
                 fComData.setContent(fCom.getContent());
                 log.info("fComData.setContent(fCom.getContent())");
-                fcRepo.save(fComData);
-                msg = "댓글 수정 성공";
+                fc = fcRepo.save(fComData);
 
             } catch (Exception e) {
-                msg = "댓글 수정 실패";
-
+                log.info(e.getMessage());
             }
         } else {
-            msg = "댓글 작성자만 수정 가능합니다.";
+            log.info("댓글 작성자만 수정 가능합니다.");
         }
-        return msg;
+        return fc;
     }
 }

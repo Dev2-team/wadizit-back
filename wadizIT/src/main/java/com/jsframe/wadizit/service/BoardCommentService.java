@@ -18,28 +18,25 @@ public class BoardCommentService {
     private BoardRepository bRepo;
 
     // 게시글 댓글 작성
-    public String create(BoardComment boardComment, Long boardNum, Member member) {
+    public BoardComment create(BoardComment boardComment, Long boardNum, Member member) {
         log.info("create()");
-        String msg = null;
+        BoardComment bc = null;
 
         try {
             Board bNum = bRepo.findById(boardNum).get();
             boardComment.setBoardNum(bNum);
             boardComment.setMemberNum(member);
-            bcRepo.save(boardComment);
+            bc = bcRepo.save(boardComment);
 
             log.info("boardComNum : " + boardComment.getBoardComNum());
             log.info("memberNum : " + boardComment.getMemberNum());
             log.info("content : " + boardComment.getContent());
             log.info("date : " + boardComment.getDate());
-
-            msg = "댓글 등록을 완료했습니다.";
         } catch (Exception e) {
             log.info(e.getMessage());
-            msg = "댓글 등록을 실패했습니다.";
         }
 
-        return msg;
+        return bc;
     }
 
     // 게시글 댓글 상세 출력 => 피료없음
@@ -53,9 +50,11 @@ public class BoardCommentService {
     }
 
     // 게시글 댓글 수정
-    public String update(BoardComment boardComment, Member member, Long boardComNum) {
+    public BoardComment update(BoardComment boardComment, Member member, Long boardComNum) {
         log.info("update()");
-        String msg = null;
+        BoardComment bc = null;
+        log.info("content: " + boardComment.getContent());
+        log.info("session member: " + member.getMemberNum());
 
         BoardComment bcData = bcRepo.findById(boardComNum).get();
         long mNum = (bcData.getMemberNum()).getMemberNum();
@@ -63,18 +62,15 @@ public class BoardCommentService {
         try {
             if (member.getMemberNum() == mNum) {
                 bcData.setContent(boardComment.getContent());
-                bcRepo.save(bcData);
-                msg = "댓글 수정을 완료했습니다.";
+                bc = bcRepo.save(bcData);
             } else {
-                msg = "작성자만 수정할 수 있습니다.";
+                throw new Exception("작성자가 아닙니다");
             }
-
         } catch (Exception e) {
-            log.info(e.getMessage());
-            msg = "댓글 수정을 실패했습니다.";
+            log.info(e.toString());
+            log.info("exception");
         }
-
-        return msg;
+        return bc;
     }
 
     // 게시글 댓글 삭제
