@@ -54,6 +54,8 @@ public class MemberService {
                 result.put("success", true);
                 result.put("nickName", member.getNickname());
                 result.put("memberNum", member.getMemberNum());
+                result.put("grade", member.getGrade());
+
             } else {// 비밀번호가 맞지 않는 경우
                 result.put("success", false);
             }
