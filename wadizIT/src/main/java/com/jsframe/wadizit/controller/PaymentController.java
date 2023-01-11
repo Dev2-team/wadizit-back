@@ -25,7 +25,7 @@ public class PaymentController {
         pServ.save(oNum, oName, date, member);
     }
 
-    @GetMapping("list")
+    @GetMapping("/list")
     public List<Payment> getPayment(HttpSession session) {
         log.info("getPayment()");
         Member member = (Member) session.getAttribute("mem");
