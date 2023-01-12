@@ -13,6 +13,9 @@ public interface DonateRepository extends CrudRepository<Donate, Long> {
 
     List<Donate> findAllByFundingNum(long fundingNum);
 
+    @Query(value = "SELECT DISTINCT member_num FROM donate WHERE funding_num= :fundingNum", nativeQuery = true)
+    List<Integer> findDistinctByFundingNumWithNativeQuery(long fundingNum);
+
 
 //    @Query(value = "SELECT DISTINCT member_num FROM donate WHERE funding_num= ?",
 //    nativeQuery = true)

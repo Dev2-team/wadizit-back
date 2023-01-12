@@ -44,9 +44,10 @@ public class DonateController {
         return Serv.getMyList(donate, session);
     }
 
-//    @GetMapping("/getFundingPerson")
-//    public List<Member> getFundingPerson(long fundingNum){
-//        log.info("getFundingPerson()");
-//        return Serv.getFundingPerson(fundingNum);
-//    }
+    //펀딩 후원자 리스트 출력
+    @GetMapping("/getFundingPerson")
+    public List<Integer> getFundingPerson(long fundingNum){
+        log.info("getFundingPerson()");
+        return Serv.getFundingPerson(fundingNum);
+    }
 }
