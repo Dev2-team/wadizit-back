@@ -25,6 +25,8 @@ public class TokenTransactionController {
     @Autowired
     private TokenRepository tokenRepo;
     @Autowired
+    private FundingRepository fundingRepo;
+    @Autowired
     private TokenOrderRepository tokenOrderRepo;
     @Autowired
     private TokenPossessionRepository tokenPossessionRepo;
@@ -100,6 +102,9 @@ public class TokenTransactionController {
             return;
         }
         Token token = tokenOpt.get();
+
+        Funding funding = fundingRepo.findById(token.getTokenNum()).get();
+        initRes.setEndDate(funding.getEndDate());
 
         // 대기중인 주문 리스트 얻기
         List<TokenOrder> tokenOrderList =
