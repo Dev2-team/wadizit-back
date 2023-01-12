@@ -3,6 +3,8 @@ package com.jsframe.wadizit.dto;
 import com.jsframe.wadizit.entity.*;
 import lombok.Data;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -14,6 +16,7 @@ public class TokenInitRes {
     private List<TokenOrderSimple> myOrderList;
     private List<TokenTransactionSimple> tokenTransactionList;
 
+    private Timestamp endDate;
     private int retCode;
     private String errorMsg;
 
