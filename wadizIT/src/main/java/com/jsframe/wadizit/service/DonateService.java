@@ -8,6 +8,7 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -90,16 +91,16 @@ public class DonateService {
         return myList;
     }
 
-//    public List<Member> getFundingPerson(long fundingNum) {
-//        log.info("getFundingPerson()");
-//        List<Member> dData = null;
-//
-//        try{
-//           dData  = fbRepo.findAllDonaters(fundingNum);
-//
-//        } catch (Exception e) {
-//            log.info(e.getMessage());
-//        }
-//        return dData;
-//    }
+    public List<Integer> getFundingPerson(long fundingNum) {
+        log.info("getFundingPerson()");
+        List<Integer> dData = null;
+
+        try{
+           dData  = fbRepo.findDistinctByFundingNumWithNativeQuery(fundingNum);
+
+        } catch (Exception e) {
+            log.info(e.getMessage());
+        }
+        return dData;
+    }
 }
