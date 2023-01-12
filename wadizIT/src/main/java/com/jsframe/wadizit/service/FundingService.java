@@ -4,6 +4,7 @@ import com.jsframe.wadizit.entity.FundingAndFileList;
 import com.jsframe.wadizit.entity.Funding;
 import com.jsframe.wadizit.entity.FundingFile;
 import com.jsframe.wadizit.entity.Member;
+import com.jsframe.wadizit.repository.DonateRepository;
 import com.jsframe.wadizit.repository.FundingRepository;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class FundingService {
     private FundingRepository fRepo;
     @Autowired
     private FundingFileService ffServ;
+
+    @Autowired
+    private DonateRepository dRepo;
 
     //펀딩 게시글 생성
     public long create(Funding funding, Member member) {
@@ -53,7 +57,6 @@ public class FundingService {
     //펀딩 게시글 읽기
     public Funding getFunding(Long fundingNum) {
         log.info("getFunding()");
-
         Funding fund = fRepo.findById(fundingNum).get();
         log.info("출력 : "+ fund.getFundingNum());
         return fund;
