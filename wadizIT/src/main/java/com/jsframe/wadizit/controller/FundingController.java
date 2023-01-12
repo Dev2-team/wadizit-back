@@ -66,7 +66,7 @@ public class FundingController {
 
     //페이징 처리
     @GetMapping("/page")
-    public Map<String, Object> getPage(@RequestParam Integer pageNum, HttpSession session){
+    public Map<String, Object> getPage(@RequestParam Integer pageNum){
         log.info("getPage()");
         return Serv.getFundingPage(pageNum);
     }

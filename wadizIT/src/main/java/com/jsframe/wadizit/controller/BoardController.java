@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 @Log
 @RestController
@@ -57,5 +58,12 @@ public class BoardController {
     public Iterable<Board> getList(Board board) {
         log.info("getList()");
         return Serv.getList(board);
+    }
+
+    // 페이징 처리 + 게시글 전체 리스트
+    @GetMapping("/page")
+    public Map<String, Object> getPage(@RequestParam Integer pageNum) {
+        log.info("getPage()");
+        return Serv.getBoardPage(pageNum);
     }
 }
