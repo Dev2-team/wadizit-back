@@ -9,6 +9,8 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Log
 @Service
 public class BoardCommentService {
@@ -104,5 +106,33 @@ public class BoardCommentService {
         Iterable<BoardComment> bcList = bcRepo.findAllByBoardNum(bNum);
 
         return bcList;
+    }
+
+    // 게시글 댓글 리스트 삭제
+    public String deleteAll(Long boardNum) {
+        log.info("deleteAll()");
+        String msg = null;
+
+
+        try {
+            Board bData = (Board) bRepo.findById(boardNum).get();
+            Iterable<BoardComment> bcList = bcRepo.findAllByBoardNum(bData);
+
+            int count = 0;
+            for(BoardComment bc : bcList){
+                count++;
+            }
+            if(count != 0){
+                bcRepo.deleteAllByBoardNum(bData);
+                msg = "댓글 전체 삭제";
+            } else {
+                msg = "댓글없음";
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            msg = "댓글 전체삭제 실패";
+        }
+        return msg;
     }
 }

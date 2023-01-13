@@ -179,7 +179,6 @@ public class FundingService {
         if (totalPage == pageNum) {
             res.put("end", true);
         }
-
         return res;
     }
 }
