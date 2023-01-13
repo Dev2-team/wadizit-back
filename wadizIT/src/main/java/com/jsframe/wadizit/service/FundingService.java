@@ -182,6 +182,37 @@ public class FundingService {
 
         return res;
     }
+
+    // 관리자용 펀딩 페이징
+    public Map<String, Object> getAdminFundingPage(Integer pageNum) {
+        log.info("getFundingPage()");
+
+        if(pageNum == null){//처음에 접속했을 때는 pageNum이 넘어오지 않는다.
+            pageNum = 1;
+        }
+
+        int listCnt = 5;//페이지 당 보여질 게시글의 개수.
+        //페이징 조건 생성
+        Pageable pb = PageRequest.of((pageNum - 1), listCnt,
+                Sort.Direction.DESC, "fundingNum");
+
+        Page<Funding> result = fRepo.findByFundingNumGreaterThanOrderByFundingNumDesc(0L, pb);
+        List<Funding> fList = result.getContent();
+        int totalPage = result.getTotalPages();
+
+        Map<String, Object> res = new HashMap<>();
+        res.put("totalPage", totalPage);
+        res.put("pageNum", pageNum);
+        res.put("fList", fList);
+        res.put("end", false);
+
+        // 마지막 페이지일 때
+        if(totalPage == pageNum) {
+            res.put("end", true);
+        }
+
+        return res;
+    }
 }
 
 
