@@ -1,9 +1,7 @@
 package com.jsframe.wadizit.service;
 
 import com.jsframe.wadizit.entity.*;
-import com.jsframe.wadizit.repository.DonateRepository;
-import com.jsframe.wadizit.repository.FundingRepository;
-import com.jsframe.wadizit.repository.MemberRepository;
+import com.jsframe.wadizit.repository.*;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Log
@@ -23,6 +22,12 @@ public class DonateService {
 
     @Autowired
     private MemberRepository mRepo;
+
+    @Autowired
+    private TokenRepository tokenRepository;
+
+    @Autowired
+    private TokenPossessionRepository tokenPossessionRepo;
 
     public String createDonate(Donate donate, long fundingNum, Member member) {
         log.info("buyFunding()");
@@ -44,6 +49,28 @@ public class DonateService {
             long gatherAmount = funding.getCurrentAmount() + donate.getPayAmount();
             funding.setCurrentAmount(gatherAmount);
             fRepo.save(funding);
+
+            // 토큰 정보 얻기
+            Token token = tokenRepository.findById(fundingNum).get();
+            // 토큰 소유 정보 얻기
+            MemberTokenID mtID = new MemberTokenID();
+            mtID.setTokenNum(token.getTokenNum());
+            mtID.setMemberNum(mData.getMemberNum());
+            // 아직 해당 토큰을 소유하지 않은 경우
+            Optional<TokenPossession> tpOp = tokenPossessionRepo.findById(mtID);
+            if (tpOp.isPresent() == false) {
+                TokenPossession tp = new TokenPossession();
+                tp.setMemberNum(mData.getMemberNum());
+                tp.setTokenNum(token.getTokenNum());
+                tp.setAmount(donate.getPayAmount() / token.getListingPrice());
+                tokenPossessionRepo.save(tp);
+            }
+            // 해당 토큰을 소유한 경우
+            else {
+                TokenPossession tp = tpOp.get();
+                tp.setAmount(tp.getAmount() + donate.getPayAmount() / token.getListingPrice());
+                tokenPossessionRepo.save(tp);
+            }
 
             msg = "펀딩 후원 성공";
         } catch (Exception e) {
