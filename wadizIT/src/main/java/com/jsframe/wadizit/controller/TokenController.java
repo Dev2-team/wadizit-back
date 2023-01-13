@@ -43,6 +43,18 @@ public class TokenController {
         return ResponseEntity.status(respStatus).body(ret);
     }
 
+    @GetMapping("/amount")
+    public ResponseEntity readMyToken(long tokenNum, HttpSession session) {
+        Optional<Token> ret = tokenRepo.findById(tokenNum);
+        Member member = (Member)session.getAttribute("mem");
+
+        TokenPossession tp = tokenPossessionRepo.findByMemberNumAndTokenNum(member.getMemberNum(), tokenNum);
+        if (tp == null) {
+            return ResponseEntity.status(200).body(0);
+        }
+        return ResponseEntity.status(200).body(tp.getAmount());
+    }
+
     @PutMapping("")
     public ResponseEntity update(@RequestBody Token token) {
         Token ret = tokenRepo.save(token);
