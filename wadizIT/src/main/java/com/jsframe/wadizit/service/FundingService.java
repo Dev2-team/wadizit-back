@@ -126,6 +126,7 @@ public class FundingService {
 
     }
 
+
     //펀딩 생성 내역 리스트(로그인한 유저)
     public List<Funding> getMyList(Funding funding, HttpSession session) {
         Member member = (Member) session.getAttribute("mem");
@@ -133,8 +134,9 @@ public class FundingService {
         List<Funding> myList = fRepo.findAllByMemberNum(member);
         return myList;
     }
-
-    // 페이징 처리 + 펀딩 전체 리스트
+  
+  
+    //페이징 처리
     public Map<String, Object> getFundingPage(Integer pageNum) {
         log.info("getFundingPage()");
 
@@ -142,7 +144,7 @@ public class FundingService {
             pageNum = 1;
         }
 
-        int listCnt = 5;//페이지 당 보여질 게시글의 개수.
+        int listCnt = 18;//페이지 당 보여질 게시글의 개수.
         //페이징 조건 생성
         Pageable pb = PageRequest.of((pageNum - 1), listCnt,
                 Sort.Direction.DESC, "fundingNum");
@@ -151,10 +153,27 @@ public class FundingService {
         List<Funding> fList = result.getContent();
         int totalPage = result.getTotalPages();
 
+
+        //funding list에 fundingfilelist 추가
+        List<FundingAndFileList> fffList = new ArrayList<>();
+        // Funding List 순회
+        // 각 Funding 객체에 해당하는 File 리스트얻기
+        // FFF 객체 생성
+        for (int i = 0; i < fList.size(); i++) {
+            Funding f = fList.get(i);
+            List<FundingFile> ffList = ffServ.getFundingFileList(f.getFundingNum());
+            FundingAndFileList fff = new FundingAndFileList();
+            fff.setFunding(f);
+            fff.setFundingFileList(ffList);
+            fffList.add(fff);
+        }
+
+        // FFF 객체에 펀딩 객체와 파일리스트 저장
+
         Map<String, Object> res = new HashMap<>();
         res.put("totalPage", totalPage);
         res.put("pageNum", pageNum);
-        res.put("fList", fList);
+        res.put("fffList", fffList);
         res.put("end", false);
 
         // 마지막 페이지일 때
@@ -164,4 +183,5 @@ public class FundingService {
 
         return res;
     }
-}
+
+
