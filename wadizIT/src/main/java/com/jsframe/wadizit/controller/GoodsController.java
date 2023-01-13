@@ -1,11 +1,9 @@
 package com.jsframe.wadizit.controller;
 
-import com.jsframe.wadizit.entity.Board;
-import com.jsframe.wadizit.entity.BoardFile;
-import com.jsframe.wadizit.entity.Funding;
-import com.jsframe.wadizit.entity.Goods;
+import com.jsframe.wadizit.entity.*;
 import com.jsframe.wadizit.repository.FundingRepository;
 import com.jsframe.wadizit.repository.GoodsRepository;
+import com.jsframe.wadizit.repository.TokenPossessionRepository;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +24,8 @@ public class GoodsController {
     private GoodsRepository goodsRepo;
     @Autowired
     private FundingRepository fundingRepo;
+    @Autowired
+    private TokenPossessionRepository tokenPossessionRepo;
     private HttpStatus respStatus;
 
     @PostMapping("")
@@ -61,6 +61,28 @@ public class GoodsController {
         if (goodsList.size() == 0) respStatus = HttpStatus.NO_CONTENT;
         else respStatus = HttpStatus.OK;
         return ResponseEntity.status(respStatus).body(goodsList);
+    }
+
+    @GetMapping("/purchase")
+    public ResponseEntity purchase(long goodsNum, HttpSession session) {
+        Goods goods = goodsRepo.findById(goodsNum).get();
+        Member member = (Member)session.getAttribute("mem");
+        if (member == null ) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Require login");
+        goods.getFundingNum().getFundingNum();
+
+        MemberTokenID mtID = new MemberTokenID();
+        mtID.setMemberNum(member.getMemberNum());
+        mtID.setTokenNum(goods.getFundingNum().getFundingNum());
+
+        Optional<TokenPossession> tpOp = tokenPossessionRepo.findById(mtID);
+        if (tpOp.isPresent() == false) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Insufficient token");
+        TokenPossession tp = tpOp.get();
+        long balance = tp.getAmount() - goods.getPrice();
+        if (balance < 0) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Insufficient token");
+
+        tp.setAmount(balance);
+        tokenPossessionRepo.save(tp);
+        return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 
     @PostMapping("/image")
