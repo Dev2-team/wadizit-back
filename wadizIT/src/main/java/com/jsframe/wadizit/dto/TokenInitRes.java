@@ -17,6 +17,7 @@ public class TokenInitRes {
     private List<TokenTransactionSimple> tokenTransactionList;
 
     private Timestamp endDate;
+    private String fundingStatus;
     private int retCode;
     private String errorMsg;
 

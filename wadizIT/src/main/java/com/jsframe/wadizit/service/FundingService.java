@@ -37,17 +37,17 @@ public class FundingService {
         log.info("create()");
         long fundingNum = 0;
 
-        log.info(""+funding.getFundingNum());
+        log.info("" + funding.getFundingNum());
         //log.info(funding.getContent());
         log.info(funding.getTitle());
 
-        try{
+        try {
             funding.setMemberNum(member);
             fRepo.save(funding);
             fundingNum = funding.getFundingNum();
-        } catch (Exception e){
+        } catch (Exception e) {
             log.info(e.getMessage());
-            fundingNum = 0 ;
+            fundingNum = 0;
         }
 
         return fundingNum;
@@ -58,7 +58,7 @@ public class FundingService {
     public Funding getFunding(Long fundingNum) {
         log.info("getFunding()");
         Funding fund = fRepo.findById(fundingNum).get();
-        log.info("출력 : "+ fund.getFundingNum());
+        log.info("출력 : " + fund.getFundingNum());
         return fund;
 
     }
@@ -68,10 +68,10 @@ public class FundingService {
         log.info("deleteFunding()");
         String msg = null;
 
-        try{
+        try {
             fRepo.deleteById(fundingNum);
             msg = "삭제 성공";
-        } catch (Exception e){
+        } catch (Exception e) {
             msg = "삭제 실패";
         }
         return msg;
@@ -99,11 +99,11 @@ public class FundingService {
         Funding fund3 = fRepo.findById(fundingNum).get();
         long fundWriter = (fund3.getMemberNum()).getMemberNum();
 
-        log.info(""+fund3.getMemberNum().getMemberNum());
+        log.info("" + fund3.getMemberNum().getMemberNum());
         Funding funding3 = fRepo.findById(fundingNum).get();
         funding3.setTitle(funding.getTitle());
 
-        if ( logGrade == 1 || loginPerson == fundWriter) {
+        if (logGrade == 1 || loginPerson == fundWriter) {
 
             fund3.setTitle(funding.getTitle());
             fund3.setCategory(funding.getCategory());
@@ -117,8 +117,7 @@ public class FundingService {
             } catch (Exception e) {
                 msg = "수정 실패";
             }
-        }
-        else{
+        } else {
             msg = "작성자만 수정 가능합니다";
         }
 
@@ -134,13 +133,13 @@ public class FundingService {
         List<Funding> myList = fRepo.findAllByMemberNum(member);
         return myList;
     }
-  
-  
+
+
     //페이징 처리
     public Map<String, Object> getFundingPage(Integer pageNum) {
         log.info("getFundingPage()");
 
-        if(pageNum == null){//처음에 접속했을 때는 pageNum이 넘어오지 않는다.
+        if (pageNum == null) {//처음에 접속했을 때는 pageNum이 넘어오지 않는다.
             pageNum = 1;
         }
 
@@ -177,11 +176,43 @@ public class FundingService {
         res.put("end", false);
 
         // 마지막 페이지일 때
+        if (totalPage == pageNum) {
+            res.put("end", true);
+        }
+
+        return res;
+    }
+
+    // 관리자용 펀딩 페이징
+    public Map<String, Object> getAdminFundingPage(Integer pageNum) {
+        log.info("getFundingPage()");
+
+        if(pageNum == null){//처음에 접속했을 때는 pageNum이 넘어오지 않는다.
+            pageNum = 1;
+        }
+
+        int listCnt = 5;//페이지 당 보여질 게시글의 개수.
+        //페이징 조건 생성
+        Pageable pb = PageRequest.of((pageNum - 1), listCnt,
+                Sort.Direction.DESC, "fundingNum");
+
+        Page<Funding> result = fRepo.findByFundingNumGreaterThanOrderByFundingNumDesc(0L, pb);
+        List<Funding> fList = result.getContent();
+        int totalPage = result.getTotalPages();
+
+        Map<String, Object> res = new HashMap<>();
+        res.put("totalPage", totalPage);
+        res.put("pageNum", pageNum);
+        res.put("fList", fList);
+        res.put("end", false);
+
+        // 마지막 페이지일 때
         if(totalPage == pageNum) {
             res.put("end", true);
         }
 
         return res;
     }
+}
 
 
