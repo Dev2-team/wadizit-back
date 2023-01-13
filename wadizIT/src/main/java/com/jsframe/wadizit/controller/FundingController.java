@@ -71,4 +71,10 @@ public class FundingController {
         return Serv.getFundingPage(pageNum);
     }
 
+    @GetMapping("/admin/page")
+    public Map<String, Object> getAdminFundingPage(@RequestParam Integer pageNum){
+        log.info("getAdminFundingPage()");
+        return Serv.getAdminFundingPage(pageNum);
+    }
+
 }
