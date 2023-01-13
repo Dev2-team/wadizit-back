@@ -1,6 +1,7 @@
 package com.jsframe.wadizit.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -10,15 +11,13 @@ import java.sql.Timestamp;
 @Data
 public class Token {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long tokenNum;
-
-    @ManyToOne
-    @JoinColumn(name = "fundingNum")
-    private Funding fundingNum;
 
     @Column(nullable = false, length = 50)
     private String name;
+
+    @Column(nullable = false)
+    private long amount;
 
     @Column(nullable = false)
     private long currentPrice;
@@ -27,6 +26,7 @@ public class Token {
     private long listingPrice;
 
     @Column(nullable = false)
+    @ColumnDefault("100")
     private long parValue;
 
     @Column(nullable = false)

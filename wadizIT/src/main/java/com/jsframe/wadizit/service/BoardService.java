@@ -5,11 +5,17 @@ import com.jsframe.wadizit.entity.Member;
 import com.jsframe.wadizit.repository.BoardRepository;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @org.springframework.stereotype.Service
@@ -121,5 +127,36 @@ public class BoardService {
         }
 
         return msg;
+    }
+
+    // 페이징 처리 + 게시글 전체 리스트
+    public Map<String, Object> getBoardPage(Integer pageNum) {
+        log.info("getBoardPage()");
+
+        if (pageNum == null) {
+            pageNum = 1;
+        }
+
+        int listCnt = 5; // 페이지 당 보여질 개수
+
+        // 페이징 조건 생성
+        Pageable pb = PageRequest.of((pageNum - 1), listCnt,
+                Sort.Direction.DESC, "boardNum");
+
+        Page<Board> result = bRepo.findByBoardNumGreaterThanOrderByBoardNumAsc(0L, pb);
+        List<Board> bList = result.getContent();
+        int totalPage = result.getTotalPages();
+
+        Map<String, Object> res = new HashMap<>();
+        res.put("totalPage", totalPage);
+        res.put("pageNum", pageNum);
+        res.put("bList", bList);
+        res.put("end", false);
+
+        if (totalPage == pageNum) {
+            res.put("end", true);
+        }
+
+        return res;
     }
 }

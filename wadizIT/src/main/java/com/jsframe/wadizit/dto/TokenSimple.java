@@ -15,7 +15,7 @@ public class TokenSimple {
     private Timestamp createDate;
 
     public TokenSimple(Token token) {
-        this.fundingNum = token.getFundingNum().getFundingNum();
+        this.fundingNum = token.getTokenNum();
         this.name = token.getName();
         this.currentPrice = token.getCurrentPrice();
         this.listingPrice = token.getListingPrice();

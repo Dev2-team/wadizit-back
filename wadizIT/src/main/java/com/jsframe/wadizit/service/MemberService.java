@@ -4,6 +4,10 @@ import com.jsframe.wadizit.entity.Member;
 import com.jsframe.wadizit.repository.MemberRepository;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -125,10 +129,10 @@ public class MemberService {
         return mRepo.countMemberByNickname(nickname);
     }
 
-    public List<Member> findAll() {
-        log.info("findAll");
-        return mRepo.findAll();
-    }
+//    public List<Member> findAll() {
+//        log.info("findAll");
+//        return mRepo.findAll();
+//    }
 
     public void point(Member member, int point) {
         log.info("point()");
@@ -146,5 +150,37 @@ public class MemberService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // 페이징 처리 + 멤버 전체 리스트
+    public Map<String, Object> getMemberPage(Integer pageNum) {
+        log.info("getMemberPage()");
+
+        if (pageNum == null) {
+            pageNum = 1;
+        }
+
+        int listCnt = 5; // 페이지 당 보여질 개수
+
+        // 페이징 조건 생성
+        Pageable pb = PageRequest.of((pageNum - 1), listCnt,
+                Sort.Direction.DESC, "memberNum");
+
+        Page<Member> result = mRepo.findByMemberNumGreaterThanOrderByMemberNumAsc(0L, pb);
+        List<Member> mList = result.getContent();
+        int totalPage = result.getTotalPages();
+
+        Map<String, Object> res = new HashMap<>();
+        res.put("totalPage", totalPage);
+        res.put("pageNum", pageNum);
+        res.put("mList", mList);
+        res.put("end", false);
+
+        // 마지막 페이지일 경우
+        if (totalPage == pageNum) {
+            res.put("end", true);
+        }
+
+        return res;
     }
 }

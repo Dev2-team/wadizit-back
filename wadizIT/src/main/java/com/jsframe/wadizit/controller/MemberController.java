@@ -74,15 +74,17 @@ public class MemberController {
         return mServ.checkNickname(nickname);
     }
 
-    @GetMapping("/findAll")
-    public List<Member> findAll(){
-        return mServ.findAll();
-    }
-
     @PutMapping("/point")
     public void point(HttpSession session, int point) {
         log.info("point()");
         Member member = (Member) session.getAttribute("mem");
         mServ.point(member, point);
+    }
+
+    // 페이징 처리 + 멤버 전체 리스트
+    @GetMapping("/page")
+    public Map<String, Object> getPage(@RequestParam Integer pageNum) {
+        log.info("getPage()");
+        return mServ.getMemberPage(pageNum);
     }
 }

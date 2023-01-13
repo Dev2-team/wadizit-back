@@ -21,6 +21,7 @@ public class TokenController {
 
     @PostMapping("")
     public ResponseEntity create(@RequestBody Token token) {
+        token.setParValue(100);
         Token ret = tokenRepo.save(token);
         return ResponseEntity.status(HttpStatus.CREATED).body(ret);
     }

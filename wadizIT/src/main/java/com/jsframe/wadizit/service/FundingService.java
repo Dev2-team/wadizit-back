@@ -4,6 +4,7 @@ import com.jsframe.wadizit.entity.FundingAndFileList;
 import com.jsframe.wadizit.entity.Funding;
 import com.jsframe.wadizit.entity.FundingFile;
 import com.jsframe.wadizit.entity.Member;
+import com.jsframe.wadizit.repository.DonateRepository;
 import com.jsframe.wadizit.repository.FundingRepository;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class FundingService {
     private FundingRepository fRepo;
     @Autowired
     private FundingFileService ffServ;
+
+    @Autowired
+    private DonateRepository dRepo;
 
     //펀딩 게시글 생성
     public long create(Funding funding, Member member) {
@@ -53,7 +57,6 @@ public class FundingService {
     //펀딩 게시글 읽기
     public Funding getFunding(Long fundingNum) {
         log.info("getFunding()");
-
         Funding fund = fRepo.findById(fundingNum).get();
         log.info("출력 : "+ fund.getFundingNum());
         return fund;
@@ -82,55 +85,6 @@ public class FundingService {
 
         return fList;
     }
-
-    //페이징 처리
-    public Map<String, Object> getFundingPage(Integer pageNum) {
-        log.info("getFundingPage()");
-
-        if(pageNum == null){//처음에 접속했을 때는 pageNum이 넘어오지 않는다.
-            pageNum = 1;
-        }
-
-        int listCnt = 18;//페이지 당 보여질 게시글의 개수.
-        //페이징 조건 생성
-        Pageable pb = PageRequest.of((pageNum - 1), listCnt,
-                Sort.Direction.DESC, "fundingNum");
-
-        Page<Funding> result = fRepo.findByFundingNumGreaterThanOrderByFundingNumDesc(0L, pb);
-        List<Funding> fList = result.getContent();
-        int totalPage = result.getTotalPages();
-
-
-        //funding list에 fundingfilelist 추가
-        List<FundingAndFileList> fffList = new ArrayList<>();
-        // Funding List 순회
-        // 각 Funding 객체에 해당하는 File 리스트얻기
-        // FFF 객체 생성
-        for (int i = 0; i < fList.size(); i++) {
-            Funding f = fList.get(i);
-            List<FundingFile> ffList = ffServ.getFundingFileList(f.getFundingNum());
-            FundingAndFileList fff = new FundingAndFileList();
-            fff.setFunding(f);
-            fff.setFundingFileList(ffList);
-            fffList.add(fff);
-        }
-
-        // FFF 객체에 펀딩 객체와 파일리스트 저장
-
-        Map<String, Object> res = new HashMap<>();
-        res.put("totalPage", totalPage);
-        res.put("pageNum", pageNum);
-        res.put("fffList", fffList);
-        res.put("end", false);
-
-        // 마지막 페이지일 때
-        if(totalPage == pageNum) {
-            res.put("end", true);
-        }
-
-        return res;
-    }
-
 
     //펀딩 게시글 수정
     public String update(Funding funding, Long fundingNum, Member member) {
@@ -180,7 +134,54 @@ public class FundingService {
         List<Funding> myList = fRepo.findAllByMemberNum(member);
         return myList;
     }
+  
+  
+    //페이징 처리
+    public Map<String, Object> getFundingPage(Integer pageNum) {
+        log.info("getFundingPage()");
 
-}
+        if(pageNum == null){//처음에 접속했을 때는 pageNum이 넘어오지 않는다.
+            pageNum = 1;
+        }
+
+        int listCnt = 18;//페이지 당 보여질 게시글의 개수.
+        //페이징 조건 생성
+        Pageable pb = PageRequest.of((pageNum - 1), listCnt,
+                Sort.Direction.DESC, "fundingNum");
+
+        Page<Funding> result = fRepo.findByFundingNumGreaterThanOrderByFundingNumDesc(0L, pb);
+        List<Funding> fList = result.getContent();
+        int totalPage = result.getTotalPages();
+
+
+        //funding list에 fundingfilelist 추가
+        List<FundingAndFileList> fffList = new ArrayList<>();
+        // Funding List 순회
+        // 각 Funding 객체에 해당하는 File 리스트얻기
+        // FFF 객체 생성
+        for (int i = 0; i < fList.size(); i++) {
+            Funding f = fList.get(i);
+            List<FundingFile> ffList = ffServ.getFundingFileList(f.getFundingNum());
+            FundingAndFileList fff = new FundingAndFileList();
+            fff.setFunding(f);
+            fff.setFundingFileList(ffList);
+            fffList.add(fff);
+        }
+
+        // FFF 객체에 펀딩 객체와 파일리스트 저장
+
+        Map<String, Object> res = new HashMap<>();
+        res.put("totalPage", totalPage);
+        res.put("pageNum", pageNum);
+        res.put("fffList", fffList);
+        res.put("end", false);
+
+        // 마지막 페이지일 때
+        if(totalPage == pageNum) {
+            res.put("end", true);
+        }
+
+        return res;
+    }
 
 
