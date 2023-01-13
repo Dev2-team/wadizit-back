@@ -147,7 +147,7 @@ public class FundingService {
         Pageable pb = PageRequest.of((pageNum - 1), listCnt,
                 Sort.Direction.DESC, "fundingNum");
 
-        Page<Funding> result = fRepo.findByFundingNumGreaterThanOrderByFundingNumAsc(0L, pb);
+        Page<Funding> result = fRepo.findByFundingNumGreaterThanOrderByFundingNumDesc(0L, pb);
         List<Funding> fList = result.getContent();
         int totalPage = result.getTotalPages();
 
