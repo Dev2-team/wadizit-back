@@ -1,5 +1,6 @@
 package com.jsframe.wadizit.controller;
 
+import com.jsframe.wadizit.dto.DonateDto;
 import com.jsframe.wadizit.entity.Donate;
 import com.jsframe.wadizit.entity.Member;
 import com.jsframe.wadizit.service.DonateService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Log
@@ -40,8 +42,17 @@ public class DonateController {
     }
 
     @GetMapping("/dlist")
-    public List<Donate> getMyList(Donate donate, HttpSession session){
-        return Serv.getMyList(donate, session);
+    public List<DonateDto> getMyList(Donate donate, HttpSession session){
+        List<Donate> donateList = Serv.getMyList(donate, session);
+        List<DonateDto> donateDtoList = new ArrayList<>();
+        for (int i=0; i<donateList.size(); i++) {
+            DonateDto dd = new DonateDto();
+            dd.setDonateNum(donateList.get(i).getDonateNum());
+            dd.setDonateAmount(donateList.get(i).getPayAmount());
+            dd.setFundingTitle(donateList.get(i).getFundingNum().getTitle());
+            donateDtoList.add(dd);
+        }
+        return donateDtoList;
     }
 
     //펀딩 후원자 리스트 출력
