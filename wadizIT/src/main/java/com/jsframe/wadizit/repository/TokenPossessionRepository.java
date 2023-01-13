@@ -6,6 +6,10 @@ import com.jsframe.wadizit.entity.Token;
 import com.jsframe.wadizit.entity.TokenPossession;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
+
 public interface TokenPossessionRepository extends CrudRepository<TokenPossession, MemberTokenID> {
     TokenPossession findByMemberNumAndTokenNum(long memberNum, long tokenNum);
+
+    List<TokenPossession> findAllByMemberNum(long memberNum);
 }
