@@ -83,54 +83,6 @@ public class FundingService {
         return fList;
     }
 
-    //펀딩 게시글 수정
-    public String update(Funding funding, Long fundingNum, Member member) {
-        log.info("update()");
-        String msg = null;
-
-        //로그인한 사람의 memberNum
-        long loginPerson = member.getMemberNum();
-        // 로그인한 사람의 grade
-        int logGrade = member.getGrade();
-        //펀드 작성자의 memberNum
-        Funding fund3 = fRepo.findById(fundingNum).get();
-        long fundWriter = (fund3.getMemberNum()).getMemberNum();
-
-        log.info(""+fund3.getMemberNum().getMemberNum());
-        Funding funding3 = fRepo.findById(fundingNum).get();
-        funding3.setTitle(funding.getTitle());
-
-        if ( logGrade == 1 || loginPerson == fundWriter) {
-
-            fund3.setTitle(funding.getTitle());
-            fund3.setCategory(funding.getCategory());
-            fund3.setStartDate(funding.getStartDate());
-            fund3.setEndDate(funding.getEndDate());
-            fund3.setStatus(funding.getStatus());
-
-            try {
-                fRepo.save(funding3);
-                msg = "수정 성공";
-            } catch (Exception e) {
-                msg = "수정 실패";
-            }
-        }
-        else{
-            msg = "작성자만 수정 가능합니다";
-        }
-
-        return msg;
-
-    }
-
-    //펀딩 생성 내역 리스트(로그인한 유저)
-    public List<Funding> getMyList(Funding funding, HttpSession session) {
-        Member member = (Member) session.getAttribute("mem");
-        funding.setMemberNum(member);
-        List<Funding> myList = fRepo.findAllByMemberNum(member);
-        return myList;
-    }
-
     //페이징 처리
     public Map<String, Object> getFundingPage(Integer pageNum) {
         log.info("getFundingPage()");
@@ -178,4 +130,57 @@ public class FundingService {
 
         return res;
     }
+
+
+    //펀딩 게시글 수정
+    public String update(Funding funding, Long fundingNum, Member member) {
+        log.info("update()");
+        String msg = null;
+
+        //로그인한 사람의 memberNum
+        long loginPerson = member.getMemberNum();
+        // 로그인한 사람의 grade
+        int logGrade = member.getGrade();
+        //펀드 작성자의 memberNum
+        Funding fund3 = fRepo.findById(fundingNum).get();
+        long fundWriter = (fund3.getMemberNum()).getMemberNum();
+
+        log.info(""+fund3.getMemberNum().getMemberNum());
+        Funding funding3 = fRepo.findById(fundingNum).get();
+        funding3.setTitle(funding.getTitle());
+
+        if ( logGrade == 1 || loginPerson == fundWriter) {
+
+            fund3.setTitle(funding.getTitle());
+            fund3.setCategory(funding.getCategory());
+            fund3.setStartDate(funding.getStartDate());
+            fund3.setEndDate(funding.getEndDate());
+            fund3.setStatus(funding.getStatus());
+
+            try {
+                fRepo.save(funding3);
+                msg = "수정 성공";
+            } catch (Exception e) {
+                msg = "수정 실패";
+            }
+        }
+        else{
+            msg = "작성자만 수정 가능합니다";
+        }
+
+        return msg;
+
+    }
+
+
+    //펀딩 생성 내역 리스트(로그인한 유저)
+    public List<Funding> getMyList(Funding funding, HttpSession session) {
+        Member member = (Member) session.getAttribute("mem");
+        funding.setMemberNum(member);
+        List<Funding> myList = fRepo.findAllByMemberNum(member);
+        return myList;
+    }
+
 }
+
+
