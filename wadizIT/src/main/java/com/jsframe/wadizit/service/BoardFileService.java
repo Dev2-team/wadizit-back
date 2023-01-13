@@ -180,17 +180,28 @@ public class BoardFileService {
         log.info("loginPerson : " +loginPerson);
         log.info("write : " + writer);
 
-        String realPath = sessionFile.getServletContext().getRealPath("/");
-        realPath += "upload";
+
 
         if(loginPerson==writer){
 
             try {
-                BoardFile boardFile = new BoardFile();
-                String delPath = realPath + boardFile.getSysName();
+                Iterable<BoardFile> files = bfRepo.findAllByBoardNum(bData);
+                for(BoardFile mf : files){
+                    String realPath = sessionFile.getServletContext().getRealPath("/");
+                    realPath += "upload/";
 
-                File file = new File(delPath);
-                file.delete();
+                    String delPath = realPath + mf.getSysName();
+
+                    File file = new File(delPath);
+                    file.delete();
+                    realPath = null;
+                }
+
+//                BoardFile boardFile = new BoardFile();
+//                String delPath = realPath + boardFile.getSysName();
+
+//                File file = new File(delPath);
+//                file.delete();
 
                 bfRepo.deleteAllByBoardNum(bData);
 
@@ -205,7 +216,5 @@ public class BoardFileService {
         return  msg;
     }
 
-//    public String deleteList(List<MultipartFile> files, long boardNum, HttpSession sessionFile) {
-//    }
 }
 
