@@ -1,5 +1,6 @@
 package com.jsframe.wadizit.service;
 
+import com.jsframe.wadizit.dto.FundingRateInterface;
 import com.jsframe.wadizit.entity.FundingAndFileList;
 import com.jsframe.wadizit.entity.Funding;
 import com.jsframe.wadizit.entity.FundingFile;
@@ -15,10 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Log
@@ -135,52 +133,98 @@ public class FundingService {
     }
 
 
-    //페이징 처리
-    public Map<String, Object> getFundingPage(Integer pageNum) {
+    //메인 페이지 펀딩리스트 처리
+    public Map<String, Object> getFundingPage(Integer pageNum ,int sort) {
         log.info("getFundingPage()");
+        Page<Funding> result = null;
+        Date today = new Date();
+        List<String> status = new ArrayList<String>();
+        status.add("1");
+        status.add("2");
+
 
         if (pageNum == null) {//처음에 접속했을 때는 pageNum이 넘어오지 않는다.
             pageNum = 1;
         }
+        int listCnt = 9;//페이지 당 보여질 게시글의 개수.
 
-        int listCnt = 18;//페이지 당 보여질 게시글의 개수.
-        //페이징 조건 생성
-        Pageable pb = PageRequest.of((pageNum - 1), listCnt,
-                Sort.Direction.DESC, "fundingNum");
+            // 조건별 페이징 조건 생성
+            if (sort == 0) { // 최근등록순 (defaultValue(select value = 0) 일 때)
+                Pageable pb = PageRequest.of((pageNum - 1), listCnt,
+                        Sort.Direction.DESC, "fundingNum");
 
-        Page<Funding> result = fRepo.findByFundingNumGreaterThanOrderByFundingNumDesc(0L, pb);
-        List<Funding> fList = result.getContent();
-        int totalPage = result.getTotalPages();
+                result = fRepo.findByStatusInAndFundingNumGreaterThanOrderByFundingNumDesc(status, 0L, pb);
+            }
+            if (sort == 1) { // 마감임박순
+                Pageable pb = PageRequest.of((pageNum - 1), listCnt,
+                        Sort.Direction.DESC, "endDate");
+
+                result = fRepo.findByStatusInAndEndDateGreaterThanEqualOrderByEndDateAsc(status, today, pb);
+            }
+
+            // 페이징 쿼리를 활용하여 페이징 처리
+            if (sort == 2) { // 목표금액 달성순(current_amount/target_amount)
+                int offset = (pageNum - 1) * listCnt;
+                List<FundingRateInterface> fList = fRepo.findByCurrentAmountAndTargetAmountWithNativeQuery(offset, listCnt);
+                Long totalPage = fRepo.countAllBy();
+                List<FundingAndFileList> fffList = new ArrayList<>();
+                for (int i = 0; i < fList.size(); i++) {
+                    FundingRateInterface f = fList.get(i);
+                    Long fundingRateNum = f.getFundingNum();
+
+                    List<FundingFile> ffList = ffServ.getFundingFileList(fundingRateNum);
+                    FundingAndFileList fff = new FundingAndFileList();
+                    fff.setFundingRateInterface(f);
+                    fff.setFundingFileList(ffList);
+                    fffList.add(fff);
+                }
+                Map<String, Object> res = new HashMap<>();
+                res.put("totalPage", totalPage);
+                res.put("pageNum", pageNum);
+                res.put("fffList", fffList);
+                res.put("end", false);
+                res.put("sort", sort);
+
+                // 마지막 페이지일 때
+                if (totalPage.intValue() <= pageNum * listCnt) {
+                    res.put("end", true);
+                }
+                return res;
+            }
+
+            List<Funding> fList = result.getContent();
+            int totalPage = result.getTotalPages();
+
+            //funding list에 fundingfilelist 추가
+            List<FundingAndFileList> fffList = new ArrayList<>();
+
+            // Funding List 순회
+            // 각 Funding 객체에 해당하는 File 리스트얻기
+            // FFF 객체 생성
+            for (int i = 0; i < fList.size(); i++) {
+                Funding f = fList.get(i);
+                List<FundingFile> ffList = ffServ.getFundingFileList(f.getFundingNum());
+                FundingAndFileList fff = new FundingAndFileList();
+                fff.setFunding(f);
+                fff.setFundingFileList(ffList);
+                fffList.add(fff);
+            }
 
 
-        //funding list에 fundingfilelist 추가
-        List<FundingAndFileList> fffList = new ArrayList<>();
-        // Funding List 순회
-        // 각 Funding 객체에 해당하는 File 리스트얻기
-        // FFF 객체 생성
-        for (int i = 0; i < fList.size(); i++) {
-            Funding f = fList.get(i);
-            List<FundingFile> ffList = ffServ.getFundingFileList(f.getFundingNum());
-            FundingAndFileList fff = new FundingAndFileList();
-            fff.setFunding(f);
-            fff.setFundingFileList(ffList);
-            fffList.add(fff);
-        }
+            // FFF 객체에 펀딩 객체와 파일리스트 저장
+            Map<String, Object> res = new HashMap<>();
+            res.put("totalPage", totalPage);
+            res.put("pageNum", pageNum);
+            res.put("fffList", fffList);
+            res.put("end", false);
+            res.put("sort", sort);
 
-        // FFF 객체에 펀딩 객체와 파일리스트 저장
+            // 마지막 페이지일 때
+            if (totalPage == pageNum) {
+                res.put("end", true);
+            }
 
-        Map<String, Object> res = new HashMap<>();
-        res.put("totalPage", totalPage);
-        res.put("pageNum", pageNum);
-        res.put("fffList", fffList);
-        res.put("end", false);
-
-        // 마지막 페이지일 때
-        if (totalPage == pageNum) {
-            res.put("end", true);
-        }
-
-        return res;
+            return res;
     }
 
     // 관리자용 펀딩 페이징
