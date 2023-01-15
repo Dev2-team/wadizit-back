@@ -130,20 +130,22 @@ public class BoardService {
     }
 
     // 페이징 처리 + 게시글 전체 리스트
-    public Map<String, Object> getBoardPage(Integer pageNum) {
+    public Map<String, Object> getBoardPage(Integer pageNum, Integer listCntNum) {
         log.info("getBoardPage()");
 
         if (pageNum == null) {
             pageNum = 1;
         }
 
-        int listCnt = 5; // 페이지 당 보여질 개수
+        int listCnt = listCntNum; // 페이지 당 보여질 개수
 
         // 페이징 조건 생성
         Pageable pb = PageRequest.of((pageNum - 1), listCnt,
                 Sort.Direction.DESC, "boardNum");
 
-        Page<Board> result = bRepo.findByBoardNumGreaterThanOrderByBoardNumAsc(0L, pb);
+//        Page<Board> result = bRepo.findByBoardNumGreaterThanOrderByBoardNumAsc(0L, pb);
+        Page<Board> result = bRepo.findByBoardNumGreaterThanOrderByBoardNumDesc(0L, pb);
+
         List<Board> bList = result.getContent();
         int totalPage = result.getTotalPages();
 
