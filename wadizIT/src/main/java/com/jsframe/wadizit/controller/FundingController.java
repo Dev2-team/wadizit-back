@@ -1,7 +1,9 @@
 package com.jsframe.wadizit.controller;
 
+import com.jsframe.wadizit.dto.FundingRateInterface;
 import com.jsframe.wadizit.entity.Funding;
 import com.jsframe.wadizit.entity.Member;
+import com.jsframe.wadizit.repository.FundingRepository;
 import com.jsframe.wadizit.service.FundingService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,11 +66,11 @@ public class FundingController {
         return Serv.getMyList(funding, session);
     }
 
-    //페이징 처리
+    //메인 페이징 처리
     @GetMapping("/page")
-    public Map<String, Object> getPage(@RequestParam Integer pageNum){
+    public Map<String, Object> getPage(@RequestParam Integer pageNum, Integer sort){
         log.info("getPage()");
-        return Serv.getFundingPage(pageNum);
+        return Serv.getFundingPage(pageNum, sort);
     }
 
     @GetMapping("/admin/page")
@@ -76,5 +78,4 @@ public class FundingController {
         log.info("getAdminFundingPage()");
         return Serv.getAdminFundingPage(pageNum);
     }
-
 }
