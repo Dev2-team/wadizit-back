@@ -90,4 +90,11 @@ public class TokenController {
         }
         return ResponseEntity.status(200).body(tpDtoList);
     }
+
+    @GetMapping("/fundToken")
+    public Token getfundToken(Long fundingNum) {
+        log.info("getfundToken()");
+        Token tData = tokenRepo.findById(fundingNum).get();
+        return tData;
+    }
 }
