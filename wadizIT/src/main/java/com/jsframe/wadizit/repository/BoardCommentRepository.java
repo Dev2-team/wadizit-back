@@ -8,10 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface BoardCommentRepository extends CrudRepository<BoardComment, Long> {
-    Iterable<BoardComment> findAllByBoardNum(Board boardNum);
-
+    Iterable<BoardComment> findAllByBoardNum(Board board);
+    Iterable<BoardComment> findAllByBoardNumOrderByBoardComNumDesc(Board board);
     @Transactional
     void deleteAllByBoardNum(Board bData);
-
-    Iterable<BoardComment> findAllByBoardNumOrderByBoardComNumDesc(Board bNum);
 }
