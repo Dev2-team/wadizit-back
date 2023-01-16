@@ -167,6 +167,7 @@ public class BoardFileService {
                 .body(fResource);
     }
 
+    @Transactional
     public String deleteAll(long boardNum, HttpSession sessionFile, Member member) {
         log.info("deleteAll()");
         String msg = null;
@@ -179,7 +180,6 @@ public class BoardFileService {
 
         log.info("loginPerson : " +loginPerson);
         log.info("write : " + writer);
-
 
 
         if(loginPerson==writer){
