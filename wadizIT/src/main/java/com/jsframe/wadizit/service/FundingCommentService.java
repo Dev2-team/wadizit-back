@@ -46,7 +46,7 @@ public class FundingCommentService {
         log.info("getList()");
         log.info(""+fundingNum);
         Funding fData =(Funding) fRepo.findById(fundingNum).get();
-        Iterable<FundingComment> fComList = fcRepo.findAllByFundingNum(fData);
+        Iterable<FundingComment> fComList = fcRepo.findAllByFundingNumOrderByFundingComNumDesc(fData);
 
         return fComList;
     }
