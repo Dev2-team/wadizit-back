@@ -25,6 +25,9 @@ public interface FundingRepository extends CrudRepository<Funding, Long> {
     // status 1(승인) or 2(진행) 중  endDate 가 자신보다 크거나 같은 값 중 작은 순으로 정렬(마감임박순-종료제외)
     Page<Funding> findByStatusInAndEndDateGreaterThanEqualOrderByEndDateAsc(List<String> status, Date today, Pageable pageable);
 
+    // status "종료" 중  endDate 가 자신보다 작은 값 중 작은 순으로 정렬(토큰거래활성화-종료)
+    Page<Funding> findByStatusInAndEndDateLessThanOrderByEndDateDesc(List<String> endStatus, Date today, Pageable pageable);
+
     // status 1(승인) or 2(진행) 중 completeRate(current_amount/target_amount) 가 큰 순(목표금액 달성 순)
     @Query(value = "SELECT F.* FROM " +
             "(SELECT funding_num as fundingNum, title as title, target_amount as targetAmount, " +

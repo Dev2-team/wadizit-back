@@ -140,7 +140,9 @@ public class FundingService {
         Date today = new Date();
         List<String> status = new ArrayList<String>();
         status.add("승인");
-//        status.add("2");
+        // status.add("2");
+        List<String> endStatus = new ArrayList<String>();
+        endStatus.add("종료");
 
 
         if (pageNum == null) {//처음에 접속했을 때는 pageNum이 넘어오지 않는다.
@@ -190,6 +192,13 @@ public class FundingService {
                     res.put("end", true);
                 }
                 return res;
+            }
+
+            if (sort == 3) { // 종료된 펀딩(=토큰 거래 진행 중)
+                Pageable pb = PageRequest.of((pageNum - 1), listCnt,
+                        Sort.Direction.DESC, "endDate");
+
+                result = fRepo.findByStatusInAndEndDateLessThanOrderByEndDateDesc(endStatus, today, pb);
             }
 
             List<Funding> fList = result.getContent();
