@@ -51,4 +51,11 @@ public class BoardCommentController {
         log.info("getList()");
         return bcServ.getList(boardNum);
     }
+
+    //게시글 댓글 전체 삭제
+    @DeleteMapping("deleteAll")
+    public String deleteAll(Long boardNum){
+        log.info("deleteAll()");
+        return bcServ.deleteAll(boardNum);
+    }
 }

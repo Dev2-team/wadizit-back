@@ -62,8 +62,9 @@ public class BoardController {
 
     // 페이징 처리 + 게시글 전체 리스트
     @GetMapping("/page")
-    public Map<String, Object> getPage(@RequestParam Integer pageNum) {
+    public Map<String, Object> getPage(@RequestParam Integer pageNum,@RequestParam Integer listCntNum) {
         log.info("getPage()");
-        return Serv.getBoardPage(pageNum);
+        log.info("리스트 몇개" + listCntNum);
+        return Serv.getBoardPage(pageNum, listCntNum);
     }
 }

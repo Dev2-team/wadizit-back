@@ -2,6 +2,7 @@ package com.jsframe.wadizit.controller;
 
 import com.jsframe.wadizit.entity.*;
 import com.jsframe.wadizit.repository.FundingRepository;
+import com.jsframe.wadizit.repository.GoodsPurchaseRepository;
 import com.jsframe.wadizit.repository.GoodsRepository;
 import com.jsframe.wadizit.repository.TokenPossessionRepository;
 import lombok.extern.java.Log;
@@ -23,9 +24,12 @@ public class GoodsController {
     @Autowired
     private GoodsRepository goodsRepo;
     @Autowired
+    private GoodsPurchaseRepository goodsPurchaseRepo;
+    @Autowired
     private FundingRepository fundingRepo;
     @Autowired
     private TokenPossessionRepository tokenPossessionRepo;
+
     private HttpStatus respStatus;
 
     @PostMapping("")
@@ -67,7 +71,7 @@ public class GoodsController {
     public ResponseEntity purchase(long goodsNum, HttpSession session) {
         Goods goods = goodsRepo.findById(goodsNum).get();
         Member member = (Member)session.getAttribute("mem");
-        if (member == null ) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Require login");
+        if (member == null ) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("로그인이 필요합니다");
         goods.getFundingNum().getFundingNum();
 
         MemberTokenID mtID = new MemberTokenID();
@@ -75,10 +79,17 @@ public class GoodsController {
         mtID.setTokenNum(goods.getFundingNum().getFundingNum());
 
         Optional<TokenPossession> tpOp = tokenPossessionRepo.findById(mtID);
-        if (tpOp.isPresent() == false) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Insufficient token");
+        if (tpOp.isPresent() == false) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("보유 토큰이 부족합니다");
         TokenPossession tp = tpOp.get();
         long balance = tp.getAmount() - goods.getPrice();
-        if (balance < 0) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Insufficient token");
+        if (balance < 0) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("보유 토큰이 부족합니다");
+
+        // 굿즈 구매 내역 저장
+        GoodsPurchase gp = new GoodsPurchase();
+        gp.setPrice(goods.getPrice());
+        gp.setMemberNum(member);
+        gp.setGoodsNum(goods);
+        goodsPurchaseRepo.save(gp);
 
         tp.setAmount(balance);
         tokenPossessionRepo.save(tp);

@@ -210,7 +210,6 @@ public class FundingService {
                 fffList.add(fff);
             }
 
-
             // FFF 객체에 펀딩 객체와 파일리스트 저장
             Map<String, Object> res = new HashMap<>();
             res.put("totalPage", totalPage);
@@ -225,6 +224,7 @@ public class FundingService {
             }
 
             return res;
+
     }
 
     // 관리자용 펀딩 페이징
