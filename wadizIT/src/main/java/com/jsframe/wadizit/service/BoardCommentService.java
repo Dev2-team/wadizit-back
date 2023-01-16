@@ -7,10 +7,7 @@ import com.jsframe.wadizit.repository.BoardCommentRepository;
 import com.jsframe.wadizit.repository.BoardRepository;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Log
 @Service
