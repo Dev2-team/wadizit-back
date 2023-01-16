@@ -139,8 +139,8 @@ public class FundingService {
         Page<Funding> result = null;
         Date today = new Date();
         List<String> status = new ArrayList<String>();
-        status.add("1");
-        status.add("2");
+        status.add("승인");
+//        status.add("2");
 
 
         if (pageNum == null) {//처음에 접속했을 때는 pageNum이 넘어오지 않는다.
