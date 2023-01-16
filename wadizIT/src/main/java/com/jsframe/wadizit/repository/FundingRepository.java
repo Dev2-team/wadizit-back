@@ -11,4 +11,8 @@ import java.util.List;
 public interface FundingRepository extends CrudRepository<Funding, Long> {
     List<Funding> findAllByMemberNum(Member member);
     Page<Funding> findByFundingNumGreaterThanOrderByFundingNumDesc(long fundingNum, Pageable pageable);
+
+    Page<Funding> findByTitleContainingGreaterThanOrderByFundingNumDesc(String title, Pageable pb);
+
+    Page<Funding> findByTitleContaining(String title);
 }
