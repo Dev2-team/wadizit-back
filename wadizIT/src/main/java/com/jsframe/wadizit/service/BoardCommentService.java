@@ -103,7 +103,7 @@ public class BoardCommentService {
     public Iterable<BoardComment> getList(Long boardNum) {
         log.info("getList()");
         Board bNum = bRepo.findById(boardNum).get();
-        Iterable<BoardComment> bcList = bcRepo.findAllByBoardNum(bNum);
+        Iterable<BoardComment> bcList = bcRepo.findAllByBoardNumOrderByBoardComNumDesc(bNum);
 
         return bcList;
     }

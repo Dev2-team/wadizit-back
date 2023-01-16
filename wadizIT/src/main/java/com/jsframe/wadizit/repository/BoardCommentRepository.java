@@ -12,4 +12,6 @@ public interface BoardCommentRepository extends CrudRepository<BoardComment, Lon
 
     @Transactional
     void deleteAllByBoardNum(Board bData);
+
+    Iterable<BoardComment> findAllByBoardNumOrderByBoardComNumDesc(Board bNum);
 }

@@ -55,10 +55,10 @@ public class DonateController {
         return donateDtoList;
     }
 
-//    //펀딩 후원자 리스트 출력
-//    @GetMapping("/getFundingPerson")
-//    public List<Integer> getFundingPerson(long fundingNum){
-//        log.info("getFundingPerson()");
-//        return Serv.getFundingPerson(fundingNum);
-//    }
+    //펀딩 후원자 리스트 출력
+    @GetMapping("/getFundingPerson")
+    public List<Integer> getFundingPerson(long fundingNum){
+        log.info("getFundingPerson()");
+        return Serv.getFundingPerson(fundingNum);
+    }
 }
