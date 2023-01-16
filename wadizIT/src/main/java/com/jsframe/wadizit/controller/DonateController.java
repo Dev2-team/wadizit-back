@@ -49,6 +49,7 @@ public class DonateController {
             DonateDto dd = new DonateDto();
             dd.setDonateNum(donateList.get(i).getDonateNum());
             dd.setDonateAmount(donateList.get(i).getPayAmount());
+            dd.setFundingNum(donateList.get(i).getFundingNum().getFundingNum());
             dd.setFundingTitle(donateList.get(i).getFundingNum().getTitle());
             donateDtoList.add(dd);
         }
