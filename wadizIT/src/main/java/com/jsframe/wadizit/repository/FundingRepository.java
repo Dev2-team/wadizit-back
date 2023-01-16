@@ -31,7 +31,7 @@ public interface FundingRepository extends CrudRepository<Funding, Long> {
             "current_amount as currentAmount, start_date as startDate, end_date as endDate, " +
             "category as category, status as status, member_num as memberNum, " +
             "current_amount/target_amount AS completeRate FROM funding ORDER BY completeRate DESC) F " +
-            "WHERE status = '1' OR status = '2'"+
+            "WHERE status = '승인'"+
             " LIMIT :offset, :listCnt", nativeQuery = true)
     List<FundingRateInterface> findByCurrentAmountAndTargetAmountWithNativeQuery(@Param("offset") int offset, @Param("listCnt") int listCnt);
 
