@@ -139,8 +139,9 @@ public class MemberService {
 
         int memPoint = member.getPoint();
 
-        if (point == 10000) { point += 1000; }
-        else if (point == 20000) { point += 2000; }
+        if (point == 10000) { point += 500; }
+        else if (point == 50000) { point += 3000; }
+        else if (point == 100000) { point += 7000; }
 
         int resPoint = memPoint + point;
 

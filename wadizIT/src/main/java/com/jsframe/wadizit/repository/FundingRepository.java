@@ -36,4 +36,5 @@ public interface FundingRepository extends CrudRepository<Funding, Long> {
     List<FundingRateInterface> findByCurrentAmountAndTargetAmountWithNativeQuery(@Param("offset") int offset, @Param("listCnt") int listCnt);
 
     Long countAllBy();
+
 }

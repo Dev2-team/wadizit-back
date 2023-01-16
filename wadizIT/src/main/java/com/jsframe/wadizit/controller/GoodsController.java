@@ -110,7 +110,7 @@ public class GoodsController {
         for (MultipartFile mf : files) {
             String originName = mf.getOriginalFilename();
             if (originName.equals("")) { // 업로드할 파일이 없을 경우 정지
-                return ResponseEntity.status(respStatus).body("");
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
             }
             Goods goods = goodsRepo.findById(goodsNum).get();
             String sysName = System.currentTimeMillis()
@@ -121,6 +121,6 @@ public class GoodsController {
             mf.transferTo(file); // upload 폴더에 파일 저장
             goodsRepo.save(goods);
         }
-        return ResponseEntity.status(respStatus).body(ret);
+        return ResponseEntity.status(HttpStatus.OK).body(ret);
     }
 }

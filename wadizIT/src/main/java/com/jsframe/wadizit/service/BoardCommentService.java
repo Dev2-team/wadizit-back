@@ -9,8 +9,6 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Log
 @Service
 public class BoardCommentService {
@@ -103,7 +101,7 @@ public class BoardCommentService {
     public Iterable<BoardComment> getList(Long boardNum) {
         log.info("getList()");
         Board bNum = bRepo.findById(boardNum).get();
-        Iterable<BoardComment> bcList = bcRepo.findAllByBoardNum(bNum);
+        Iterable<BoardComment> bcList = bcRepo.findAllByBoardNumOrderByBoardComNumDesc(bNum);
 
         return bcList;
     }
