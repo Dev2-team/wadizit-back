@@ -105,6 +105,7 @@ public class TokenTransactionController {
 
         Funding funding = fundingRepo.findById(token.getTokenNum()).get();
         initRes.setEndDate(funding.getEndDate());
+        initRes.setFundingStatus(funding.getStatus());
 
         // 대기중인 주문 리스트 얻기
         List<TokenOrder> tokenOrderList =
